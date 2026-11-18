@@ -15,47 +15,356 @@
 html,
 body {
   margin: 0;
-  min-height: 100%;
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+
   background: #020617;
-  color: white;
-  font-family: "Segoe UI", Arial, sans-serif;
+  color: #ffffff;
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
 }
 
 
-/* =============================
-   PROFILE
-============================= */
+/* ==================================================
+   PROFILE FRAME
+================================================== */
 
-#profile {
-  min-height: 100vh;
-  padding: 70px 7%;
+.profile {
+  position: relative;
+
+  width: 100%;
+  height: 620px;
+
+  overflow: hidden;
+
   background:
     radial-gradient(
-      circle at 75% 30%,
-      rgba(139,92,246,.30),
-      transparent 35%
+      circle at 77% 36%,
+      rgba(139, 92, 246, .32),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(236, 72, 153, .16),
+      transparent 25%
     ),
     linear-gradient(
       145deg,
       #020617,
-      #071426,
+      #071426 52%,
       #100b2d
     );
 }
 
-.label {
+
+/* ==================================================
+   MOVING SIGNAL FIELD
+================================================== */
+
+.signals {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.signal {
+  position: absolute;
+
+  bottom: -110px;
+
+  width: 3px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      #22d3ee,
+      #818cf8,
+      #ec4899,
+      transparent
+    );
+
+  box-shadow:
+    0 0 7px #22d3ee,
+    0 0 18px rgba(129, 140, 248, .8);
+
+  opacity: .65;
+
+  animation:
+    signalMove 4s
+    ease-in-out
+    infinite alternate;
+}
+
+@keyframes signalMove {
+
+  from {
+    transform:
+      translateY(130px);
+
+    opacity: .22;
+  }
+
+  50% {
+    opacity: .92;
+  }
+
+  to {
+    transform:
+      translateY(-170px);
+
+    opacity: .40;
+  }
+
+}
+
+.signal:nth-child(2n) {
+  animation-duration: 5.2s;
+}
+
+.signal:nth-child(3n) {
+  animation-duration: 3.1s;
+}
+
+.signal:nth-child(4n) {
+  animation-delay: -1.5s;
+}
+
+.signal:nth-child(5n) {
+  animation-delay: -2.5s;
+}
+
+
+/* ==================================================
+   GRID
+================================================== */
+
+.grid {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background-image:
+
+    linear-gradient(
+      rgba(103, 232, 249, .07) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(103, 232, 249, .07) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    44px 44px;
+}
+
+
+/* ==================================================
+   READABILITY
+================================================== */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(2, 6, 23, .96) 0%,
+      rgba(2, 6, 23, .78) 38%,
+      rgba(2, 6, 23, .32) 68%,
+      rgba(2, 6, 23, .08) 100%
+    );
+}
+
+
+/* ==================================================
+   AI ORB
+================================================== */
+
+.orb {
+  position: absolute;
+
+  right: 9%;
+  top: 118px;
+
+  width: 205px;
+  height: 205px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 28%,
+      #ecfeff 0,
+      #22d3ee 13%,
+      #2563eb 38%,
+      #7c3aed 66%,
+      #020617 77%
+    );
+
+  box-shadow:
+    0 0 25px #22d3ee,
+    0 0 75px rgba(124, 58, 237, .70);
+
+  animation:
+    orbFloat 3.3s
+    ease-in-out
+    infinite alternate;
+}
+
+@keyframes orbFloat {
+
+  from {
+    transform:
+      translateY(-15px)
+      scale(.97);
+  }
+
+  to {
+    transform:
+      translateY(15px)
+      scale(1.03);
+  }
+
+}
+
+.orb::before {
+  content: "";
+
+  position: absolute;
+  inset: -28px;
+
+  border:
+    2px dashed
+    rgba(103, 232, 249, .55);
+
+  border-radius: 50%;
+
+  animation:
+    spin 12s
+    linear
+    infinite;
+}
+
+.orb::after {
+  content: "";
+
+  position: absolute;
+  inset: 39px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, .35);
+
+  border-radius: 50%;
+
+  animation:
+    spinReverse 5s
+    linear
+    infinite;
+}
+
+@keyframes spin {
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+
+}
+
+@keyframes spinReverse {
+
+  to {
+    transform:
+      rotate(-360deg);
+  }
+
+}
+
+
+/* ==================================================
+   HUGE BACKGROUND TYPE
+================================================== */
+
+.back-type {
+  position: absolute;
+
+  right: -20px;
+  bottom: -10px;
+
+  color:
+    rgba(255, 255, 255, .035);
+
+  font-size: 160px;
+  font-weight: 1000;
+  line-height: .72;
+
+  letter-spacing: -10px;
+
+  text-align: right;
+
+  pointer-events: none;
+}
+
+
+/* ==================================================
+   CONTENT
+================================================== */
+
+.content {
+  position: relative;
+  z-index: 10;
+
+  padding:
+    58px 6%;
+}
+
+.eyebrow {
   color: #67e8f9;
-  font-family: Consolas, monospace;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 5px;
+
+  font-family:
+    Consolas,
+    "Courier New",
+    monospace;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 6px;
 }
 
 .name {
-  margin-top: 45px;
-  font-size: clamp(70px, 11vw, 135px);
+  margin-top: 34px;
+
+  font-size:
+    clamp(
+      66px,
+      10vw,
+      120px
+    );
+
+  line-height: .70;
+
   font-weight: 1000;
-  line-height: .72;
+
   letter-spacing: -7px;
 
   text-shadow:
@@ -65,118 +374,206 @@ body {
 
 .name span {
   color: #67e8f9;
+
+  text-shadow:
+    4px 4px 0
+    rgba(67, 56, 202, .82),
+
+    0 0 22px
+    rgba(34, 211, 238, .25);
 }
 
 .role {
-  margin-top: 35px;
-  font-size: 20px;
-  font-weight: bold;
+  margin-top: 29px;
+
+  color: #f8fafc;
+
+  font-size: 17px;
+
+  font-weight: 700;
 }
 
 .role strong {
   color: #c4b5fd;
 }
 
+.description {
+  margin-top: 15px;
 
-/* =============================
-   PLAY BUTTON
-============================= */
+  max-width: 600px;
 
-#playButton {
-  margin-top: 45px;
-  padding: 17px 28px;
+  color: #cbd5e1;
 
-  border: 1px solid #67e8f9;
+  font-size: 15px;
+
+  line-height: 1.8;
+}
+
+
+/* ==================================================
+   GAME LAUNCHER
+================================================== */
+
+.launch-area {
+  margin-top: 27px;
+}
+
+.play-button {
+  position: relative;
+
+  padding:
+    15px 25px;
+
+  border:
+    1px solid #67e8f9;
+
   border-radius: 10px;
-
-  background: #0891b2;
-  color: white;
-
-  font-family: Consolas, monospace;
-  font-size: 16px;
-  font-weight: bold;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 0 16px rgba(34,211,238,.35);
-}
-
-#playButton:hover {
-  background: #06b6d4;
-
-  box-shadow:
-    0 0 30px rgba(34,211,238,.65);
-}
-
-
-/* =============================
-   GAME SCREEN
-============================= */
-
-#gameScreen {
-  display: none;
-
-  min-height: 100vh;
 
   background:
-    radial-gradient(
-      circle at center,
-      #172554,
-      #020617 65%
+    linear-gradient(
+      135deg,
+      #0891b2,
+      #4338ca
     );
 
-  text-align: center;
+  color: #ffffff;
 
-  padding: 25px;
-}
+  font-family:
+    Consolas,
+    "Courier New",
+    monospace;
 
-.game-header {
-  max-width: 900px;
-  margin: auto;
+  font-size: 14px;
 
-  display: flex;
-  justify-content: space-between;
+  font-weight: 700;
 
-  color: #67e8f9;
-
-  font-family: Consolas, monospace;
-  font-weight: bold;
-}
-
-canvas {
-  display: block;
-
-  max-width: 100%;
-  margin: 20px auto;
-
-  border: 1px solid #22d3ee;
-  border-radius: 10px;
-
-  background: #000814;
-
-  box-shadow:
-    0 0 25px rgba(34,211,238,.25);
-}
-
-.controls {
-  color: #94a3b8;
-
-  font-family: Consolas, monospace;
-}
-
-#exitButton {
-  margin-top: 18px;
-
-  padding: 10px 20px;
-
-  border: 1px solid #fb7185;
-  border-radius: 8px;
-
-  background: transparent;
-  color: #fb7185;
+  letter-spacing: 2px;
 
   cursor: pointer;
+
+  box-shadow:
+    0 0 15px
+    rgba(34, 211, 238, .30);
+
+  transition:
+    transform .2s,
+    box-shadow .2s,
+    background .2s;
+}
+
+.play-button:hover {
+
+  transform:
+    translateY(-3px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #06b6d4,
+      #7c3aed
+    );
+
+  box-shadow:
+    0 0 30px
+    rgba(34, 211, 238, .60);
+}
+
+.launch-note {
+  margin-top: 10px;
+
+  color: #64748b;
+
+  font-family:
+    Consolas,
+    "Courier New",
+    monospace;
+
+  font-size: 10px;
+
+  letter-spacing: 2px;
+}
+
+
+/* ==================================================
+   STATUS
+================================================== */
+
+.status {
+  position: absolute;
+
+  right: 30px;
+  bottom: 24px;
+
+  z-index: 12;
+
+  color: #4ade80;
+
+  font-family:
+    Consolas,
+    "Courier New",
+    monospace;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.status::before {
+  content: "●";
+
+  display: inline-block;
+
+  margin-right: 7px;
+
+  animation:
+    statusBlink
+    .8s
+    step-end
+    infinite;
+}
+
+@keyframes statusBlink {
+
+  50% {
+    opacity: .2;
+  }
+
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (
+  max-width: 780px
+) {
+
+  .profile {
+    height: 620px;
+  }
+
+  .orb {
+    right: -30px;
+    top: 120px;
+
+    width: 160px;
+    height: 160px;
+
+    opacity: .40;
+  }
+
+  .content {
+    padding:
+      45px 7%;
+  }
+
+  .description {
+    max-width: 470px;
+  }
+
 }
 
 </style>
@@ -186,663 +583,194 @@ canvas {
 <body>
 
 
-<!-- =============================
-     PROFILE
-============================= -->
+<main class="profile">
 
-<section id="profile">
 
-  <div class="label">
-    JOU_DO // DIGITAL DEVELOPER
+  <!-- SIGNALS -->
+
+  <div class="signals">
+
+    <i class="signal"
+       style="left:5%;height:220px;">
+    </i>
+
+    <i class="signal"
+       style="left:10%;height:270px;">
+    </i>
+
+    <i class="signal"
+       style="left:15%;height:320px;">
+    </i>
+
+    <i class="signal"
+       style="left:20%;height:365px;">
+    </i>
+
+    <i class="signal"
+       style="left:25%;height:400px;">
+    </i>
+
+    <i class="signal"
+       style="left:30%;height:430px;">
+    </i>
+
+    <i class="signal"
+       style="left:35%;height:455px;">
+    </i>
+
+    <i class="signal"
+       style="left:40%;height:475px;">
+    </i>
+
+    <i class="signal"
+       style="left:45%;height:490px;">
+    </i>
+
+    <i class="signal"
+       style="
+       left:50%;
+       height:500px;
+       width:5px;">
+    </i>
+
+    <i class="signal"
+       style="left:55%;height:490px;">
+    </i>
+
+    <i class="signal"
+       style="left:60%;height:475px;">
+    </i>
+
+    <i class="signal"
+       style="left:65%;height:455px;">
+    </i>
+
+    <i class="signal"
+       style="left:70%;height:430px;">
+    </i>
+
+    <i class="signal"
+       style="left:75%;height:400px;">
+    </i>
+
+    <i class="signal"
+       style="left:80%;height:365px;">
+    </i>
+
+    <i class="signal"
+       style="left:85%;height:320px;">
+    </i>
+
+    <i class="signal"
+       style="left:90%;height:270px;">
+    </i>
+
+    <i class="signal"
+       style="left:95%;height:220px;">
+    </i>
+
   </div>
 
-  <div class="name">
-    TEPPEI
+
+  <div class="grid"></div>
+
+  <div class="orb"></div>
+
+  <div class="overlay"></div>
+
+
+  <div class="back-type">
+    SAP
     <br>
-    <span>JOUDO</span>
-  </div>
-
-  <div class="role">
-    SAP ABAP Developer /
-    <strong>AI Explorer</strong>
-  </div>
-
-  <button id="playButton">
-    ▶ PLAY ABAP INVADERS
-  </button>
-
-</section>
-
-
-
-<!-- =============================
-     GAME
-============================= -->
-
-<section id="gameScreen">
-
-  <div class="game-header">
-
-    <span>
-      ABAP INVADERS
-    </span>
-
-    <span id="score">
-      SCORE 0000
-    </span>
-
+    AI
   </div>
 
 
-  <canvas
-    id="game"
-    width="800"
-    height="520">
-  </canvas>
+  <!-- CONTENT -->
+
+  <section class="content">
+
+    <div class="eyebrow">
+      JOU_DO // DIGITAL DEVELOPER
+    </div>
 
 
-  <div class="controls">
-    MOVE: ← → / A D
-    &nbsp;&nbsp;
-    SHOOT: SPACE
+    <div class="name">
+      TEPPEI
+      <br>
+      <span>
+        JOUDO
+      </span>
+    </div>
+
+
+    <div class="role">
+      SAP ABAP Developer /
+      <strong>
+        AI Explorer
+      </strong>
+    </div>
+
+
+    <div class="description">
+      SAP・ABAPを中心とした業務システム開発。
+      <br>
+      生成AIとWeb技術も試しながら、
+      自分で作って、動かして、確かめています。
+    </div>
+
+
+    <div class="launch-area">
+
+      <button
+        class="play-button"
+        id="playGame"
+        type="button">
+        ▶ PLAY ABAP INVADERS
+      </button>
+
+
+      <div class="launch-note">
+        OPENS INTERACTIVE GAME
+        IN A NEW TAB
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="status">
+    SYSTEM ONLINE
   </div>
 
 
-  <button id="exitButton">
-    EXIT GAME
-  </button>
-
-</section>
-
+</main>
 
 
 <script>
 
-const profile =
-  document.getElementById("profile");
-
-const gameScreen =
-  document.getElementById("gameScreen");
-
-const playButton =
-  document.getElementById("playButton");
-
-const exitButton =
-  document.getElementById("exitButton");
-
-const canvas =
-  document.getElementById("game");
-
-const ctx =
-  canvas.getContext("2d");
-
-const scoreElement =
-  document.getElementById("score");
+const playGame =
+  document.getElementById(
+    "playGame"
+  );
 
 
-/* =============================
-   GAME STATE
-============================= */
-
-let running = false;
-
-let score = 0;
-
-const keys = {};
-
-const player = {
-  x: 370,
-  y: 465,
-  width: 60,
-  height: 22,
-  speed: 6
-};
-
-let bullets = [];
-
-let bugs = [];
-
-
-/* =============================
-   BUG CREATION
-============================= */
-
-function createBugs() {
-
-  bugs = [];
-
-  for (
-    let row = 0;
-    row < 3;
-    row++
-  ) {
-
-    for (
-      let col = 0;
-      col < 8;
-      col++
-    ) {
-
-      bugs.push({
-
-        x:
-          85 +
-          col * 85,
-
-        y:
-          70 +
-          row * 55,
-
-        width: 42,
-
-        height: 25,
-
-        direction:
-          row % 2 === 0
-            ? 1
-            : -1
-
-      });
-
-    }
-
-  }
-
-}
-
-
-/* =============================
-   START
-============================= */
-
-playButton.addEventListener(
+playGame.addEventListener(
   "click",
-  () => {
+  function () {
 
-    profile.style.display =
-      "none";
-
-    gameScreen.style.display =
-      "block";
-
-    startGame();
+    window.open(
+      "./game.html",
+      "_blank",
+      "noopener,noreferrer"
+    );
 
   }
 );
-
-
-/* =============================
-   EXIT
-============================= */
-
-exitButton.addEventListener(
-  "click",
-  () => {
-
-    running = false;
-
-    gameScreen.style.display =
-      "none";
-
-    profile.style.display =
-      "block";
-
-  }
-);
-
-
-/* =============================
-   KEYBOARD
-============================= */
-
-window.addEventListener(
-  "keydown",
-  event => {
-
-    keys[
-      event.key.toLowerCase()
-    ] = true;
-
-
-    if (
-      event.code === "Space" &&
-      running
-    ) {
-
-      event.preventDefault();
-
-      shoot();
-
-    }
-
-  }
-);
-
-
-window.addEventListener(
-  "keyup",
-  event => {
-
-    keys[
-      event.key.toLowerCase()
-    ] = false;
-
-  }
-);
-
-
-/* =============================
-   SHOOT
-============================= */
-
-function shoot() {
-
-  bullets.push({
-
-    x:
-      player.x +
-      player.width / 2 -
-      2,
-
-    y:
-      player.y - 15,
-
-    width: 4,
-
-    height: 16,
-
-    speed: 9
-
-  });
-
-}
-
-
-/* =============================
-   START GAME
-============================= */
-
-function startGame() {
-
-  score = 0;
-
-  bullets = [];
-
-  player.x = 370;
-
-  scoreElement.textContent =
-    "SCORE 0000";
-
-  createBugs();
-
-  running = true;
-
-  requestAnimationFrame(
-    gameLoop
-  );
-
-}
-
-
-/* =============================
-   GAME LOOP
-============================= */
-
-function gameLoop() {
-
-  if (!running) {
-    return;
-  }
-
-
-  update();
-
-  draw();
-
-
-  requestAnimationFrame(
-    gameLoop
-  );
-
-}
-
-
-/* =============================
-   UPDATE
-============================= */
-
-function update() {
-
-  /* MOVE LEFT */
-
-  if (
-    keys["arrowleft"] ||
-    keys["a"]
-  ) {
-
-    player.x -=
-      player.speed;
-
-  }
-
-
-  /* MOVE RIGHT */
-
-  if (
-    keys["arrowright"] ||
-    keys["d"]
-  ) {
-
-    player.x +=
-      player.speed;
-
-  }
-
-
-  /* WORLD BOUNDS */
-
-  player.x =
-    Math.max(
-      0,
-      Math.min(
-        canvas.width -
-        player.width,
-
-        player.x
-      )
-    );
-
-
-  /* BULLETS */
-
-  bullets.forEach(
-    bullet => {
-
-      bullet.y -=
-        bullet.speed;
-
-    }
-  );
-
-
-  bullets =
-    bullets.filter(
-      bullet =>
-        bullet.y >
-        -30
-    );
-
-
-  /* BUG MOVEMENT */
-
-  bugs.forEach(
-    bug => {
-
-      bug.x +=
-        bug.direction *
-        0.6;
-
-    }
-  );
-
-
-  /* COLLISION */
-
-  bullets.forEach(
-    bullet => {
-
-      bugs.forEach(
-        bug => {
-
-          if (
-            !bug.dead &&
-            bullet.x <
-              bug.x +
-              bug.width &&
-            bullet.x +
-              bullet.width >
-              bug.x &&
-            bullet.y <
-              bug.y +
-              bug.height &&
-            bullet.y +
-              bullet.height >
-              bug.y
-          ) {
-
-            bug.dead =
-              true;
-
-            bullet.dead =
-              true;
-
-            score +=
-              100;
-
-          }
-
-        }
-      );
-
-    }
-  );
-
-
-  bugs =
-    bugs.filter(
-      bug =>
-        !bug.dead
-    );
-
-
-  bullets =
-    bullets.filter(
-      bullet =>
-        !bullet.dead
-    );
-
-
-  scoreElement.textContent =
-    "SCORE " +
-    String(score)
-      .padStart(4, "0");
-
-
-  /* CLEAR */
-
-  if (
-    bugs.length === 0
-  ) {
-
-    running = false;
-
-    draw();
-
-    showClear();
-
-  }
-
-}
-
-
-/* =============================
-   DRAW
-============================= */
-
-function draw() {
-
-  ctx.fillStyle =
-    "#000814";
-
-  ctx.fillRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-
-  /* GRID */
-
-  ctx.strokeStyle =
-    "rgba(34,211,238,.06)";
-
-  ctx.lineWidth = 1;
-
-  for (
-    let x = 0;
-    x < canvas.width;
-    x += 40
-  ) {
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      x,
-      0
-    );
-
-    ctx.lineTo(
-      x,
-      canvas.height
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  /* BUGS */
-
-  bugs.forEach(
-    bug => {
-
-      ctx.fillStyle =
-        "#ec4899";
-
-      ctx.fillRect(
-        bug.x,
-        bug.y,
-        bug.width,
-        bug.height
-      );
-
-
-      ctx.fillStyle =
-        "#ffffff";
-
-      ctx.font =
-        "12px Consolas";
-
-      ctx.fillText(
-        "BUG",
-        bug.x + 8,
-        bug.y + 17
-      );
-
-    }
-  );
-
-
-  /* BULLETS */
-
-  ctx.fillStyle =
-    "#4ade80";
-
-  bullets.forEach(
-    bullet => {
-
-      ctx.fillRect(
-        bullet.x,
-        bullet.y,
-        bullet.width,
-        bullet.height
-      );
-
-    }
-  );
-
-
-  /* PLAYER */
-
-  ctx.fillStyle =
-    "#22d3ee";
-
-  ctx.fillRect(
-    player.x,
-    player.y,
-    player.width,
-    player.height
-  );
-
-
-  ctx.fillStyle =
-    "#ffffff";
-
-  ctx.font =
-    "12px Consolas";
-
-  ctx.fillText(
-    "DEV",
-    player.x + 17,
-    player.y + 16
-  );
-
-}
-
-
-/* =============================
-   CLEAR
-============================= */
-
-function showClear() {
-
-  ctx.fillStyle =
-    "rgba(2,6,23,.80)";
-
-  ctx.fillRect(
-    150,
-    190,
-    500,
-    150
-  );
-
-
-  ctx.fillStyle =
-    "#4ade80";
-
-  ctx.font =
-    "bold 42px Consolas";
-
-  ctx.textAlign =
-    "center";
-
-  ctx.fillText(
-    "DEBUG COMPLETE",
-    canvas.width / 2,
-    250
-  );
-
-
-  ctx.fillStyle =
-    "#ffffff";
-
-  ctx.font =
-    "18px Consolas";
-
-  ctx.fillText(
-    "ALL BUGS REMOVED",
-    canvas.width / 2,
-    290
-  );
-
-
-  ctx.textAlign =
-    "start";
-
-}
 
 </script>
+
 
 </body>
 </html>
