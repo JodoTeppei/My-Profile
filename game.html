@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="
+    width=device-width,
+    initial-scale=1.0
+  ">
+
+<title>
+ABAP INVADERS
+</title>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100%;
+
+  background: #020617;
+
+  color: white;
+
+  font-family:
+    Consolas,
+    "Courier New",
+    monospace;
+}
+
+body {
+  min-height: 100vh;
+
+  overflow-x: hidden;
+}
+
+
+/* ==================================================
+   PAGE
+================================================== */
+
+.game-page {
+
+  min-height: 100vh;
+
+  padding:
+    22px;
+
+  background:
+
+    radial-gradient(
+      circle at 50% 40%,
+      #172554,
+      #020617 68%
+    );
+
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.game-header {
+
+  width: min(
+    100%,
+    920px
+  );
+
+  margin:
+    0 auto 14px;
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+}
+
+.logo {
+  color: #67e8f9;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+}
+
+.score {
+  color: #4ade80;
+
+  font-size: 18px;
+
+  font-weight: 900;
+}
+
+
+/* ==================================================
+   GAME FRAME
+================================================== */
+
+.game-shell {
+
+  position: relative;
+
+  width: min(
+    100%,
+    920px
+  );
+
+  margin: auto;
+
+  padding:
+    10px;
+
+  border:
+    1px solid
+    rgba(103, 232, 249, .40);
+
+  border-radius: 14px;
+
+  background:
+    rgba(2, 6, 23, .80);
+
+  box-shadow:
+    0 0 25px
+    rgba(34, 211, 238, .18);
+
+}
+
+
+canvas {
+
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  border-radius: 8px;
+
+  background: #000814;
+
+}
+
+
+/* ==================================================
+   CONTROLS
+================================================== */
+
+.controls {
+
+  width: min(
+    100%,
+    920px
+  );
+
+  margin:
+    14px auto 0;
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  gap: 15px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+
+}
+
+.controls strong {
+  color: #67e8f9;
+}
+
+
+/* ==================================================
+   BACK
+================================================== */
+
+.action-row {
+
+  width: min(
+    100%,
+    920px
+  );
+
+  margin:
+    17px auto 0;
+
+  text-align: right;
+
+}
+
+.close-button {
+
+  padding:
+    10px 17px;
+
+  border:
+    1px solid #fb7185;
+
+  border-radius: 7px;
+
+  background:
+    transparent;
+
+  color: #fb7185;
+
+  font-family:
+    inherit;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+.close-button:hover {
+
+  color: white;
+
+  background:
+    #be123c;
+
+}
+
+
+/* ==================================================
+   MOBILE BUTTONS
+================================================== */
+
+.mobile-controls {
+
+  display: none;
+
+  width: min(
+    100%,
+    920px
+  );
+
+  margin:
+    18px auto;
+
+  justify-content:
+    center;
+
+  gap: 10px;
+
+}
+
+.mobile-controls button {
+
+  min-width: 75px;
+
+  padding:
+    15px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #1e3a8a;
+
+  color: white;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+}
+
+
+@media (
+  max-width: 700px
+) {
+
+  .mobile-controls {
+    display: flex;
+  }
+
+  .controls {
+    justify-content:
+      center;
+
+    text-align:
+      center;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<main class="game-page">
+
+
+  <!-- HEADER -->
+
+  <header class="game-header">
+
+    <div class="logo">
+      ABAP INVADERS
+    </div>
+
+    <div
+      class="score"
+      id="score">
+
+      SCORE 0000
+
+    </div>
+
+  </header>
+
+
+  <!-- GAME -->
+
+  <div class="game-shell">
+
+    <canvas
+      id="game"
+      width="900"
+      height="560">
+    </canvas>
+
+  </div>
+
+
+  <!-- CONTROLS -->
+
+  <div class="controls">
+
+    <div>
+      MOVE:
+      <strong>
+        ← → / A D
+      </strong>
+    </div>
+
+    <div>
+      SHOOT:
+      <strong>
+        SPACE
+      </strong>
+    </div>
+
+  </div>
+
+
+  <!-- MOBILE -->
+
+  <div class="mobile-controls">
+
+    <button
+      id="leftButton"
+      type="button">
+      ←
+    </button>
+
+    <button
+      id="shootButton"
+      type="button">
+      DEBUG
+    </button>
+
+    <button
+      id="rightButton"
+      type="button">
+      →
+    </button>
+
+  </div>
+
+
+  <div class="action-row">
+
+    <button
+      class="close-button"
+      id="closeGame"
+      type="button">
+
+      CLOSE GAME
+
+    </button>
+
+  </div>
+
+
+</main>
+
+
+<script>
+
+/* ==================================================
+   ELEMENTS
+================================================== */
+
+const canvas =
+  document.getElementById(
+    "game"
+  );
+
+const ctx =
+  canvas.getContext(
+    "2d"
+  );
+
+const scoreElement =
+  document.getElementById(
+    "score"
+  );
+
+const closeGame =
+  document.getElementById(
+    "closeGame"
+  );
+
+const leftButton =
+  document.getElementById(
+    "leftButton"
+  );
+
+const rightButton =
+  document.getElementById(
+    "rightButton"
+  );
+
+const shootButton =
+  document.getElementById(
+    "shootButton"
+  );
+
+
+/* ==================================================
+   STATE
+================================================== */
+
+const keys = {};
+
+let running =
+  true;
+
+let cleared =
+  false;
+
+let score =
+  0;
+
+let bulletCooldown =
+  false;
+
+
+/* ==================================================
+   PLAYER
+================================================== */
+
+const player = {
+
+  x: 420,
+
+  y: 505,
+
+  width: 68,
+
+  height: 24,
+
+  speed: 6
+
+};
+
+
+/* ==================================================
+   OBJECTS
+================================================== */
+
+let bullets = [];
+
+let bugs = [];
+
+
+/* ==================================================
+   CREATE BUGS
+================================================== */
+
+function createBugs() {
+
+  bugs = [];
+
+  for (
+    let row = 0;
+    row < 3;
+    row++
+  ) {
+
+    for (
+      let col = 0;
+      col < 8;
+      col++
+    ) {
+
+      bugs.push({
+
+        x:
+          105 +
+          col * 90,
+
+        y:
+          90 +
+          row * 56,
+
+        width:
+          46,
+
+        height:
+          28,
+
+        direction:
+          row % 2 === 0
+            ? 1
+            : -1,
+
+        speed:
+          .55 +
+          row * .10
+
+      });
+
+    }
+
+  }
+
+}
+
+
+/* ==================================================
+   KEYBOARD
+================================================== */
+
+window.addEventListener(
+  "keydown",
+  function (event) {
+
+    keys[
+      event.key.toLowerCase()
+    ] = true;
+
+
+    if (
+      event.code ===
+      "Space"
+    ) {
+
+      event.preventDefault();
+
+      shoot();
+
+    }
+
+
+    if (
+      cleared &&
+      event.key.toLowerCase()
+      === "r"
+    ) {
+
+      restartGame();
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  "keyup",
+  function (event) {
+
+    keys[
+      event.key.toLowerCase()
+    ] = false;
+
+  }
+);
+
+
+/* ==================================================
+   TOUCH / BUTTON INPUT
+================================================== */
+
+function pressLeft() {
+  keys["arrowleft"] =
+    true;
+}
+
+function releaseLeft() {
+  keys["arrowleft"] =
+    false;
+}
+
+function pressRight() {
+  keys["arrowright"] =
+    true;
+}
+
+function releaseRight() {
+  keys["arrowright"] =
+    false;
+}
+
+
+leftButton.addEventListener(
+  "pointerdown",
+  pressLeft
+);
+
+leftButton.addEventListener(
+  "pointerup",
+  releaseLeft
+);
+
+leftButton.addEventListener(
+  "pointerleave",
+  releaseLeft
+);
+
+
+rightButton.addEventListener(
+  "pointerdown",
+  pressRight
+);
+
+rightButton.addEventListener(
+  "pointerup",
+  releaseRight
+);
+
+rightButton.addEventListener(
+  "pointerleave",
+  releaseRight
+);
+
+
+shootButton.addEventListener(
+  "click",
+  shoot
+);
+
+
+/* ==================================================
+   SHOOT
+================================================== */
+
+function shoot() {
+
+  if (
+    !running ||
+    bulletCooldown
+  ) {
+    return;
+  }
+
+
+  bulletCooldown =
+    true;
+
+
+  bullets.push({
+
+    x:
+      player.x +
+      player.width / 2 -
+      2,
+
+    y:
+      player.y - 20,
+
+    width:
+      4,
+
+    height:
+      18,
+
+    speed:
+      9
+
+  });
+
+
+  setTimeout(
+    function () {
+
+      bulletCooldown =
+        false;
+
+    },
+    180
+  );
+
+}
+
+
+/* ==================================================
+   UPDATE PLAYER
+================================================== */
+
+function updatePlayer() {
+
+  if (
+    keys["arrowleft"] ||
+    keys["a"]
+  ) {
+
+    player.x -=
+      player.speed;
+
+  }
+
+
+  if (
+    keys["arrowright"] ||
+    keys["d"]
+  ) {
+
+    player.x +=
+      player.speed;
+
+  }
+
+
+  player.x =
+    Math.max(
+
+      0,
+
+      Math.min(
+
+        canvas.width -
+        player.width,
+
+        player.x
+
+      )
+
+    );
+
+}
+
+
+/* ==================================================
+   UPDATE BULLETS
+================================================== */
+
+function updateBullets() {
+
+  bullets.forEach(
+    function (bullet) {
+
+      bullet.y -=
+        bullet.speed;
+
+    }
+  );
+
+
+  bullets =
+    bullets.filter(
+      function (bullet) {
+
+        return (
+          bullet.y >
+          -40 &&
+          !bullet.dead
+        );
+
+      }
+    );
+
+}
+
+
+/* ==================================================
+   UPDATE BUGS
+================================================== */
+
+function updateBugs() {
+
+  bugs.forEach(
+    function (bug) {
+
+      bug.x +=
+        bug.direction *
+        bug.speed;
+
+
+      if (
+        bug.x <= 15
+      ) {
+
+        bug.direction =
+          1;
+
+      }
+
+
+      if (
+        bug.x +
+        bug.width >=
+        canvas.width -
+        15
+      ) {
+
+        bug.direction =
+          -1;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   COLLISION
+================================================== */
+
+function collisionCheck() {
+
+  bullets.forEach(
+    function (bullet) {
+
+      bugs.forEach(
+        function (bug) {
+
+          if (
+            bug.dead ||
+            bullet.dead
+          ) {
+            return;
+          }
+
+
+          const hit =
+
+            bullet.x <
+              bug.x +
+              bug.width
+
+            &&
+
+            bullet.x +
+              bullet.width >
+              bug.x
+
+            &&
+
+            bullet.y <
+              bug.y +
+              bug.height
+
+            &&
+
+            bullet.y +
+              bullet.height >
+              bug.y;
+
+
+          if (hit) {
+
+            bug.dead =
+              true;
+
+            bullet.dead =
+              true;
+
+            score +=
+              100;
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+  bugs =
+    bugs.filter(
+      function (bug) {
+
+        return !bug.dead;
+
+      }
+    );
+
+
+  bullets =
+    bullets.filter(
+      function (bullet) {
+
+        return !bullet.dead;
+
+      }
+    );
+
+
+  scoreElement.textContent =
+
+    "SCORE " +
+
+    String(score)
+      .padStart(
+        4,
+        "0"
+      );
+
+}
+
+
+/* ==================================================
+   UPDATE
+================================================== */
+
+function update() {
+
+  updatePlayer();
+
+  updateBullets();
+
+  updateBugs();
+
+  collisionCheck();
+
+
+  if (
+    bugs.length === 0 &&
+    !cleared
+  ) {
+
+    cleared =
+      true;
+
+    running =
+      false;
+
+  }
+
+}
+
+
+/* ==================================================
+   DRAW BACKGROUND
+================================================== */
+
+function drawBackground() {
+
+  ctx.fillStyle =
+    "#000814";
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  ctx.strokeStyle =
+    "rgba(34,211,238,.07)";
+
+  ctx.lineWidth =
+    1;
+
+
+  for (
+    let x = 0;
+    x <= canvas.width;
+    x += 45
+  ) {
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      x,
+      0
+    );
+
+    ctx.lineTo(
+      x,
+      canvas.height
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  for (
+    let y = 0;
+    y <= canvas.height;
+    y += 45
+  ) {
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      0,
+      y
+    );
+
+    ctx.lineTo(
+      canvas.width,
+      y
+    );
+
+    ctx.stroke();
+
+  }
+
+}
+
+
+/* ==================================================
+   DRAW BUG
+================================================== */
+
+function drawBug(
+  bug
+) {
+
+  ctx.fillStyle =
+    "#ec4899";
+
+  ctx.fillRect(
+    bug.x,
+    bug.y,
+    bug.width,
+    bug.height
+  );
+
+
+  ctx.strokeStyle =
+    "#f9a8d4";
+
+  ctx.strokeRect(
+    bug.x,
+    bug.y,
+    bug.width,
+    bug.height
+  );
+
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.font =
+    "12px Consolas";
+
+  ctx.fillText(
+    "BUG",
+    bug.x + 10,
+    bug.y + 18
+  );
+
+}
+
+
+/* ==================================================
+   DRAW PLAYER
+================================================== */
+
+function drawPlayer() {
+
+  ctx.fillStyle =
+    "#22d3ee";
+
+  ctx.fillRect(
+    player.x,
+    player.y,
+    player.width,
+    player.height
+  );
+
+
+  ctx.fillStyle =
+    "#67e8f9";
+
+  ctx.fillRect(
+    player.x +
+      player.width / 2 -
+      7,
+    player.y - 12,
+    14,
+    12
+  );
+
+
+  ctx.fillStyle =
+    "#020617";
+
+  ctx.font =
+    "bold 12px Consolas";
+
+  ctx.fillText(
+    "DEV",
+    player.x + 21,
+    player.y + 17
+  );
+
+}
+
+
+/* ==================================================
+   DRAW BULLETS
+================================================== */
+
+function drawBullets() {
+
+  ctx.fillStyle =
+    "#4ade80";
+
+
+  bullets.forEach(
+    function (bullet) {
+
+      ctx.fillRect(
+        bullet.x,
+        bullet.y,
+        bullet.width,
+        bullet.height
+      );
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   HUD INSIDE CANVAS
+================================================== */
+
+function drawHUD() {
+
+  ctx.fillStyle =
+    "#67e8f9";
+
+  ctx.font =
+    "12px Consolas";
+
+  ctx.fillText(
+    "RUNTIME: ACTIVE",
+    20,
+    27
+  );
+
+
+  ctx.fillStyle =
+    "#64748b";
+
+  ctx.fillText(
+    "TARGET: REMOVE ALL BUGS",
+    20,
+    48
+  );
+
+}
+
+
+/* ==================================================
+   CLEAR
+================================================== */
+
+function drawClear() {
+
+  ctx.fillStyle =
+    "rgba(2,6,23,.88)";
+
+  ctx.fillRect(
+    160,
+    175,
+    580,
+    205
+  );
+
+
+  ctx.strokeStyle =
+    "#4ade80";
+
+  ctx.lineWidth =
+    2;
+
+  ctx.strokeRect(
+    160,
+    175,
+    580,
+    205
+  );
+
+
+  ctx.textAlign =
+    "center";
+
+
+  ctx.fillStyle =
+    "#4ade80";
+
+  ctx.font =
+    "bold 43px Consolas";
+
+  ctx.fillText(
+    "DEBUG COMPLETE",
+    canvas.width / 2,
+    245
+  );
+
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.font =
+    "18px Consolas";
+
+  ctx.fillText(
+    "ALL BUGS REMOVED",
+    canvas.width / 2,
+    285
+  );
+
+
+  ctx.fillStyle =
+    "#fde68a";
+
+  ctx.font =
+    "15px Consolas";
+
+  ctx.fillText(
+    "SY-SUBRC = 0",
+    canvas.width / 2,
+    320
+  );
+
+
+  ctx.fillStyle =
+    "#94a3b8";
+
+  ctx.font =
+    "13px Consolas";
+
+  ctx.fillText(
+    "PRESS R TO RESTART",
+    canvas.width / 2,
+    350
+  );
+
+
+  ctx.textAlign =
+    "start";
+
+}
+
+
+/* ==================================================
+   DRAW
+================================================== */
+
+function draw() {
+
+  drawBackground();
+
+  drawHUD();
+
+
+  bugs.forEach(
+    drawBug
+  );
+
+
+  drawBullets();
+
+  drawPlayer();
+
+
+  if (cleared) {
+
+    drawClear();
+
+  }
+
+}
+
+
+/* ==================================================
+   LOOP
+================================================== */
+
+function gameLoop() {
+
+  if (running) {
+
+    update();
+
+  }
+
+
+  draw();
+
+
+  requestAnimationFrame(
+    gameLoop
+  );
+
+}
+
+
+/* ==================================================
+   RESTART
+================================================== */
+
+function restartGame() {
+
+  score =
+    0;
+
+  bullets =
+    [];
+
+  player.x =
+    420;
+
+  cleared =
+    false;
+
+  running =
+    true;
+
+
+  scoreElement.textContent =
+    "SCORE 0000";
+
+
+  createBugs();
+
+}
+
+
+/* ==================================================
+   CLOSE
+================================================== */
+
+closeGame.addEventListener(
+  "click",
+  function () {
+
+    window.close();
+
+  }
+);
+
+
+/* ==================================================
+   START
+================================================== */
+
+createBugs();
+
+requestAnimationFrame(
+  gameLoop
+);
+
+</script>
+
+
+</body>
+</html>
