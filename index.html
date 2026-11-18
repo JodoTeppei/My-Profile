@@ -4,773 +4,1281 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>TEPPEI JOUDO</title>
+<title>TEPPEI JOUDO | ABAP INVADERS</title>
 
 <style>
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow: hidden;
-
-  background: #020617;
-  color: #ffffff;
-
-  font-family:
-    "Segoe UI",
-    Arial,
-    sans-serif;
-}
-
-
-/* ==================================================
-   PROFILE FRAME
-================================================== */
-
-.profile {
-  position: relative;
-
-  width: 100%;
-  height: 620px;
-
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 77% 36%,
-      rgba(139, 92, 246, .32),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 90% 80%,
-      rgba(236, 72, 153, .16),
-      transparent 25%
-    ),
-    linear-gradient(
-      145deg,
-      #020617,
-      #071426 52%,
-      #100b2d
-    );
-}
-
-
-/* ==================================================
-   MOVING SIGNAL FIELD
-================================================== */
-
-.signals {
-  position: absolute;
-  inset: 0;
-
-  overflow: hidden;
-
-  pointer-events: none;
-}
-
-.signal {
-  position: absolute;
-
-  bottom: -110px;
-
-  width: 3px;
-
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      transparent,
-      #22d3ee,
-      #818cf8,
-      #ec4899,
-      transparent
-    );
-
-  box-shadow:
-    0 0 7px #22d3ee,
-    0 0 18px rgba(129, 140, 248, .8);
-
-  opacity: .65;
-
-  animation:
-    signalMove 4s
-    ease-in-out
-    infinite alternate;
-}
-
-@keyframes signalMove {
-
-  from {
-    transform:
-      translateY(130px);
-
-    opacity: .22;
+  * {
+    box-sizing: border-box;
   }
 
-  50% {
-    opacity: .92;
+  :root {
+    color-scheme: dark;
   }
 
-  to {
-    transform:
-      translateY(-170px);
-
-    opacity: .40;
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #020617;
+    color: #ffffff;
+    font-family: "Segoe UI", Arial, sans-serif;
   }
 
-}
-
-.signal:nth-child(2n) {
-  animation-duration: 5.2s;
-}
-
-.signal:nth-child(3n) {
-  animation-duration: 3.1s;
-}
-
-.signal:nth-child(4n) {
-  animation-delay: -1.5s;
-}
-
-.signal:nth-child(5n) {
-  animation-delay: -2.5s;
-}
-
-
-/* ==================================================
-   GRID
-================================================== */
-
-.grid {
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  background-image:
-
-    linear-gradient(
-      rgba(103, 232, 249, .07) 1px,
-      transparent 1px
-    ),
-
-    linear-gradient(
-      90deg,
-      rgba(103, 232, 249, .07) 1px,
-      transparent 1px
-    );
-
-  background-size:
-    44px 44px;
-}
-
-
-/* ==================================================
-   READABILITY
-================================================== */
-
-.overlay {
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(2, 6, 23, .96) 0%,
-      rgba(2, 6, 23, .78) 38%,
-      rgba(2, 6, 23, .32) 68%,
-      rgba(2, 6, 23, .08) 100%
-    );
-}
-
-
-/* ==================================================
-   AI ORB
-================================================== */
-
-.orb {
-  position: absolute;
-
-  right: 9%;
-  top: 118px;
-
-  width: 205px;
-  height: 205px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle at 35% 28%,
-      #ecfeff 0,
-      #22d3ee 13%,
-      #2563eb 38%,
-      #7c3aed 66%,
-      #020617 77%
-    );
-
-  box-shadow:
-    0 0 25px #22d3ee,
-    0 0 75px rgba(124, 58, 237, .70);
-
-  animation:
-    orbFloat 3.3s
-    ease-in-out
-    infinite alternate;
-}
-
-@keyframes orbFloat {
-
-  from {
-    transform:
-      translateY(-15px)
-      scale(.97);
+  button {
+    font: inherit;
   }
 
-  to {
-    transform:
-      translateY(15px)
-      scale(1.03);
-  }
-
-}
-
-.orb::before {
-  content: "";
-
-  position: absolute;
-  inset: -28px;
-
-  border:
-    2px dashed
-    rgba(103, 232, 249, .55);
-
-  border-radius: 50%;
-
-  animation:
-    spin 12s
-    linear
-    infinite;
-}
-
-.orb::after {
-  content: "";
-
-  position: absolute;
-  inset: 39px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, .35);
-
-  border-radius: 50%;
-
-  animation:
-    spinReverse 5s
-    linear
-    infinite;
-}
-
-@keyframes spin {
-
-  to {
-    transform:
-      rotate(360deg);
-  }
-
-}
-
-@keyframes spinReverse {
-
-  to {
-    transform:
-      rotate(-360deg);
-  }
-
-}
-
-
-/* ==================================================
-   HUGE BACKGROUND TYPE
-================================================== */
-
-.back-type {
-  position: absolute;
-
-  right: -20px;
-  bottom: -10px;
-
-  color:
-    rgba(255, 255, 255, .035);
-
-  font-size: 160px;
-  font-weight: 1000;
-  line-height: .72;
-
-  letter-spacing: -10px;
-
-  text-align: right;
-
-  pointer-events: none;
-}
-
-
-/* ==================================================
-   CONTENT
-================================================== */
-
-.content {
-  position: relative;
-  z-index: 10;
-
-  padding:
-    58px 6%;
-}
-
-.eyebrow {
-  color: #67e8f9;
-
-  font-family:
-    Consolas,
-    "Courier New",
-    monospace;
-
-  font-size: 11px;
-
-  font-weight: 700;
-
-  letter-spacing: 6px;
-}
-
-.name {
-  margin-top: 34px;
-
-  font-size:
-    clamp(
-      66px,
-      10vw,
-      120px
-    );
-
-  line-height: .70;
-
-  font-weight: 1000;
-
-  letter-spacing: -7px;
-
-  text-shadow:
-    7px 6px 0 #312e81,
-    -5px -4px 0 #0891b2;
-}
-
-.name span {
-  color: #67e8f9;
-
-  text-shadow:
-    4px 4px 0
-    rgba(67, 56, 202, .82),
-
-    0 0 22px
-    rgba(34, 211, 238, .25);
-}
-
-.role {
-  margin-top: 29px;
-
-  color: #f8fafc;
-
-  font-size: 17px;
-
-  font-weight: 700;
-}
-
-.role strong {
-  color: #c4b5fd;
-}
-
-.description {
-  margin-top: 15px;
-
-  max-width: 600px;
-
-  color: #cbd5e1;
-
-  font-size: 15px;
-
-  line-height: 1.8;
-}
-
-
-/* ==================================================
-   GAME LAUNCHER
-================================================== */
-
-.launch-area {
-  margin-top: 27px;
-}
-
-.play-button {
-  position: relative;
-
-  padding:
-    15px 25px;
-
-  border:
-    1px solid #67e8f9;
-
-  border-radius: 10px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0891b2,
-      #4338ca
-    );
-
-  color: #ffffff;
-
-  font-family:
-    Consolas,
-    "Courier New",
-    monospace;
-
-  font-size: 14px;
-
-  font-weight: 700;
-
-  letter-spacing: 2px;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 0 15px
-    rgba(34, 211, 238, .30);
-
-  transition:
-    transform .2s,
-    box-shadow .2s,
-    background .2s;
-}
-
-.play-button:hover {
-
-  transform:
-    translateY(-3px);
-
-  background:
-    linear-gradient(
-      135deg,
-      #06b6d4,
-      #7c3aed
-    );
-
-  box-shadow:
-    0 0 30px
-    rgba(34, 211, 238, .60);
-}
-
-.launch-note {
-  margin-top: 10px;
-
-  color: #64748b;
-
-  font-family:
-    Consolas,
-    "Courier New",
-    monospace;
-
-  font-size: 10px;
-
-  letter-spacing: 2px;
-}
-
-
-/* ==================================================
-   STATUS
-================================================== */
-
-.status {
-  position: absolute;
-
-  right: 30px;
-  bottom: 24px;
-
-  z-index: 12;
-
-  color: #4ade80;
-
-  font-family:
-    Consolas,
-    "Courier New",
-    monospace;
-
-  font-size: 10px;
-
-  font-weight: 700;
-
-  letter-spacing: 3px;
-}
-
-.status::before {
-  content: "●";
-
-  display: inline-block;
-
-  margin-right: 7px;
-
-  animation:
-    statusBlink
-    .8s
-    step-end
-    infinite;
-}
-
-@keyframes statusBlink {
-
-  50% {
-    opacity: .2;
-  }
-
-}
-
-
-/* ==================================================
-   RESPONSIVE
-================================================== */
-
-@media (
-  max-width: 780px
-) {
-
-  .profile {
+  .app {
+    position: relative;
+    width: 100%;
     height: 620px;
+    overflow: hidden;
+    background: #020617;
+  }
+
+  .screen {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    opacity: 1;
+    transform: scale(1);
+    transition:
+      opacity .45s ease,
+      transform .45s ease;
+  }
+
+  .screen.is-hidden {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(.975);
+  }
+
+  /* ==================================================
+     PROFILE SCREEN
+  ================================================== */
+
+  #profileScreen {
+    background:
+      radial-gradient(
+        circle at 77% 36%,
+        rgba(139, 92, 246, .32),
+        transparent 32%
+      ),
+      radial-gradient(
+        circle at 90% 80%,
+        rgba(236, 72, 153, .16),
+        transparent 25%
+      ),
+      linear-gradient(
+        145deg,
+        #020617,
+        #071426 52%,
+        #100b2d
+      );
+  }
+
+  .signals {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .signal {
+    position: absolute;
+    bottom: -110px;
+    width: 3px;
+    border-radius: 999px;
+    opacity: .65;
+
+    background:
+      linear-gradient(
+        to bottom,
+        transparent,
+        #22d3ee,
+        #818cf8,
+        #ec4899,
+        transparent
+      );
+
+    box-shadow:
+      0 0 7px #22d3ee,
+      0 0 18px rgba(129, 140, 248, .8);
+
+    animation:
+      signalMove 4s
+      ease-in-out
+      infinite alternate;
+  }
+
+  @keyframes signalMove {
+    from {
+      transform: translateY(130px);
+      opacity: .22;
+    }
+
+    50% {
+      opacity: .92;
+    }
+
+    to {
+      transform: translateY(-170px);
+      opacity: .4;
+    }
+  }
+
+  .signal:nth-child(2n) {
+    animation-duration: 5.2s;
+  }
+
+  .signal:nth-child(3n) {
+    animation-duration: 3.1s;
+  }
+
+  .signal:nth-child(4n) {
+    animation-delay: -1.5s;
+  }
+
+  .signal:nth-child(5n) {
+    animation-delay: -2.5s;
+  }
+
+  .grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+      linear-gradient(
+        rgba(103, 232, 249, .07) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(103, 232, 249, .07) 1px,
+        transparent 1px
+      );
+
+    background-size: 44px 44px;
+  }
+
+  .profile-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(2, 6, 23, .96) 0%,
+        rgba(2, 6, 23, .78) 38%,
+        rgba(2, 6, 23, .32) 68%,
+        rgba(2, 6, 23, .08) 100%
+      );
   }
 
   .orb {
-    right: -30px;
-    top: 120px;
+    position: absolute;
+    right: 9%;
+    top: 118px;
+    width: 205px;
+    height: 205px;
+    border-radius: 50%;
 
-    width: 160px;
-    height: 160px;
+    background:
+      radial-gradient(
+        circle at 35% 28%,
+        #ecfeff 0,
+        #22d3ee 13%,
+        #2563eb 38%,
+        #7c3aed 66%,
+        #020617 77%
+      );
 
-    opacity: .40;
+    box-shadow:
+      0 0 25px #22d3ee,
+      0 0 75px rgba(124, 58, 237, .7);
+
+    animation:
+      orbFloat 3.3s
+      ease-in-out
+      infinite alternate;
   }
 
-  .content {
-    padding:
-      45px 7%;
+  @keyframes orbFloat {
+    from {
+      transform: translateY(-15px) scale(.97);
+    }
+
+    to {
+      transform: translateY(15px) scale(1.03);
+    }
+  }
+
+  .orb::before {
+    content: "";
+    position: absolute;
+    inset: -28px;
+    border: 2px dashed rgba(103, 232, 249, .55);
+    border-radius: 50%;
+    animation: spin 12s linear infinite;
+  }
+
+  .orb::after {
+    content: "";
+    position: absolute;
+    inset: 39px;
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 50%;
+    animation: spinReverse 5s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spinReverse {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  .back-type {
+    position: absolute;
+    right: -20px;
+    bottom: -10px;
+    color: rgba(255, 255, 255, .035);
+    font-size: 160px;
+    font-weight: 1000;
+    line-height: .72;
+    letter-spacing: -10px;
+    text-align: right;
+    pointer-events: none;
+  }
+
+  .profile-content {
+    position: relative;
+    z-index: 10;
+    padding: 58px 6%;
+  }
+
+  .eyebrow {
+    color: #67e8f9;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 6px;
+  }
+
+  .name {
+    margin-top: 34px;
+    font-size: clamp(66px, 10vw, 120px);
+    line-height: .7;
+    font-weight: 1000;
+    letter-spacing: -7px;
+
+    text-shadow:
+      7px 6px 0 #312e81,
+      -5px -4px 0 #0891b2;
+  }
+
+  .name span {
+    color: #67e8f9;
+
+    text-shadow:
+      4px 4px 0 rgba(67, 56, 202, .82),
+      0 0 22px rgba(34, 211, 238, .25);
+  }
+
+  .role {
+    margin-top: 29px;
+    color: #f8fafc;
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .role strong {
+    color: #c4b5fd;
   }
 
   .description {
-    max-width: 470px;
+    margin-top: 15px;
+    max-width: 600px;
+    color: #cbd5e1;
+    font-size: 15px;
+    line-height: 1.8;
   }
 
-}
+  .launch-area {
+    margin-top: 27px;
+  }
 
+  .primary-button {
+    padding: 15px 25px;
+    border: 1px solid #67e8f9;
+    border-radius: 10px;
+
+    background:
+      linear-gradient(
+        135deg,
+        #0891b2,
+        #4338ca
+      );
+
+    color: #ffffff;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+
+    box-shadow:
+      0 0 15px rgba(34, 211, 238, .3);
+
+    transition:
+      transform .2s,
+      box-shadow .2s,
+      background .2s;
+  }
+
+  .primary-button:hover {
+    transform: translateY(-3px);
+
+    background:
+      linear-gradient(
+        135deg,
+        #06b6d4,
+        #7c3aed
+      );
+
+    box-shadow:
+      0 0 30px rgba(34, 211, 238, .6);
+  }
+
+  .launch-note {
+    margin-top: 10px;
+    color: #64748b;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .system-status {
+    position: absolute;
+    right: 30px;
+    bottom: 24px;
+    z-index: 12;
+    color: #4ade80;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+  }
+
+  .system-status::before {
+    content: "●";
+    display: inline-block;
+    margin-right: 7px;
+    animation: statusBlink .8s step-end infinite;
+  }
+
+  @keyframes statusBlink {
+    50% {
+      opacity: .2;
+    }
+  }
+
+  /* ==================================================
+     LOADING SCREEN
+  ================================================== */
+
+  #loadingScreen {
+    z-index: 30;
+    display: grid;
+    place-items: center;
+
+    background:
+      radial-gradient(
+        circle,
+        #172554,
+        #020617 68%
+      );
+  }
+
+  .loader-panel {
+    width: min(86%, 680px);
+    padding: 34px;
+    border: 1px solid rgba(103, 232, 249, .35);
+    border-radius: 18px;
+    background: rgba(2, 6, 23, .85);
+    box-shadow: 0 0 38px rgba(34, 211, 238, .16);
+    font-family: Consolas, "Courier New", monospace;
+  }
+
+  .loader-title {
+    color: #67e8f9;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+  }
+
+  .loader-log {
+    min-height: 145px;
+    margin-top: 22px;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 2;
+  }
+
+  .loader-bar {
+    position: relative;
+    height: 8px;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #172554;
+  }
+
+  .loader-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 38%;
+
+    background:
+      linear-gradient(
+        90deg,
+        #22d3ee,
+        #8b5cf6,
+        #ec4899
+      );
+
+    box-shadow: 0 0 18px #22d3ee;
+    animation: loadingMove .8s ease-in-out infinite alternate;
+  }
+
+  @keyframes loadingMove {
+    from {
+      transform: translateX(-25%);
+    }
+
+    to {
+      transform: translateX(190%);
+    }
+  }
+
+  /* ==================================================
+     GAME SCREEN
+  ================================================== */
+
+  #gameScreen {
+    z-index: 20;
+    padding: 18px 22px;
+    background:
+      radial-gradient(
+        circle at 50% 45%,
+        #172554,
+        #020617 68%
+      );
+  }
+
+  .game-header {
+    width: min(100%, 930px);
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Consolas, "Courier New", monospace;
+  }
+
+  .game-title {
+    color: #67e8f9;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 3px;
+  }
+
+  .score {
+    color: #4ade80;
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  .game-shell {
+    width: min(100%, 930px);
+    margin: auto;
+    padding: 8px;
+    border: 1px solid rgba(103, 232, 249, .4);
+    border-radius: 14px;
+    background: rgba(2, 6, 23, .8);
+    box-shadow: 0 0 25px rgba(34, 211, 238, .18);
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    border-radius: 8px;
+    background: #000814;
+  }
+
+  .game-footer {
+    width: min(100%, 930px);
+    margin: 10px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    font-family: Consolas, "Courier New", monospace;
+  }
+
+  .controls {
+    color: #94a3b8;
+    font-size: 11px;
+  }
+
+  .controls strong {
+    color: #67e8f9;
+  }
+
+  .back-button {
+    padding: 9px 15px;
+    border: 1px solid #fb7185;
+    border-radius: 7px;
+    background: transparent;
+    color: #fb7185;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .back-button:hover {
+    color: #ffffff;
+    background: #be123c;
+  }
+
+  @media (max-width: 760px) {
+    .orb {
+      right: -55px;
+      opacity: .42;
+    }
+
+    .profile-content {
+      padding: 44px 7%;
+    }
+
+    .description {
+      max-width: 450px;
+    }
+
+    .game-footer {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
 </style>
 </head>
 
-
 <body>
 
+<div class="app">
 
-<main class="profile">
+  <!-- ==================================================
+       PROFILE
+  ================================================== -->
 
+  <section id="profileScreen" class="screen">
 
-  <!-- SIGNALS -->
-
-  <div class="signals">
-
-    <i class="signal"
-       style="left:5%;height:220px;">
-    </i>
-
-    <i class="signal"
-       style="left:10%;height:270px;">
-    </i>
-
-    <i class="signal"
-       style="left:15%;height:320px;">
-    </i>
-
-    <i class="signal"
-       style="left:20%;height:365px;">
-    </i>
-
-    <i class="signal"
-       style="left:25%;height:400px;">
-    </i>
-
-    <i class="signal"
-       style="left:30%;height:430px;">
-    </i>
-
-    <i class="signal"
-       style="left:35%;height:455px;">
-    </i>
-
-    <i class="signal"
-       style="left:40%;height:475px;">
-    </i>
-
-    <i class="signal"
-       style="left:45%;height:490px;">
-    </i>
-
-    <i class="signal"
-       style="
-       left:50%;
-       height:500px;
-       width:5px;">
-    </i>
-
-    <i class="signal"
-       style="left:55%;height:490px;">
-    </i>
-
-    <i class="signal"
-       style="left:60%;height:475px;">
-    </i>
-
-    <i class="signal"
-       style="left:65%;height:455px;">
-    </i>
-
-    <i class="signal"
-       style="left:70%;height:430px;">
-    </i>
-
-    <i class="signal"
-       style="left:75%;height:400px;">
-    </i>
-
-    <i class="signal"
-       style="left:80%;height:365px;">
-    </i>
-
-    <i class="signal"
-       style="left:85%;height:320px;">
-    </i>
-
-    <i class="signal"
-       style="left:90%;height:270px;">
-    </i>
-
-    <i class="signal"
-       style="left:95%;height:220px;">
-    </i>
-
-  </div>
-
-
-  <div class="grid"></div>
-
-  <div class="orb"></div>
-
-  <div class="overlay"></div>
-
-
-  <div class="back-type">
-    SAP
-    <br>
-    AI
-  </div>
-
-
-  <!-- CONTENT -->
-
-  <section class="content">
-
-    <div class="eyebrow">
-      JOU_DO // DIGITAL DEVELOPER
+    <div class="signals">
+      <i class="signal" style="left:5%;height:220px;"></i>
+      <i class="signal" style="left:10%;height:270px;"></i>
+      <i class="signal" style="left:15%;height:320px;"></i>
+      <i class="signal" style="left:20%;height:365px;"></i>
+      <i class="signal" style="left:25%;height:400px;"></i>
+      <i class="signal" style="left:30%;height:430px;"></i>
+      <i class="signal" style="left:35%;height:455px;"></i>
+      <i class="signal" style="left:40%;height:475px;"></i>
+      <i class="signal" style="left:45%;height:490px;"></i>
+      <i class="signal" style="left:50%;height:500px;width:5px;"></i>
+      <i class="signal" style="left:55%;height:490px;"></i>
+      <i class="signal" style="left:60%;height:475px;"></i>
+      <i class="signal" style="left:65%;height:455px;"></i>
+      <i class="signal" style="left:70%;height:430px;"></i>
+      <i class="signal" style="left:75%;height:400px;"></i>
+      <i class="signal" style="left:80%;height:365px;"></i>
+      <i class="signal" style="left:85%;height:320px;"></i>
+      <i class="signal" style="left:90%;height:270px;"></i>
+      <i class="signal" style="left:95%;height:220px;"></i>
     </div>
 
+    <div class="grid"></div>
+    <div class="orb"></div>
+    <div class="profile-overlay"></div>
 
-    <div class="name">
-      TEPPEI
+    <div class="back-type">
+      SAP
       <br>
-      <span>
-        JOUDO
-      </span>
+      AI
     </div>
 
+    <div class="profile-content">
 
-    <div class="role">
-      SAP ABAP Developer /
-      <strong>
-        AI Explorer
-      </strong>
-    </div>
-
-
-    <div class="description">
-      SAP・ABAPを中心とした業務システム開発。
-      <br>
-      生成AIとWeb技術も試しながら、
-      自分で作って、動かして、確かめています。
-    </div>
-
-
-    <div class="launch-area">
-
-      <button
-        class="play-button"
-        id="playGame"
-        type="button">
-        ▶ PLAY ABAP INVADERS
-      </button>
-
-
-      <div class="launch-note">
-        OPENS INTERACTIVE GAME
-        IN A NEW TAB
+      <div class="eyebrow">
+        JOU_DO // DIGITAL DEVELOPER
       </div>
+
+      <div class="name">
+        TEPPEI
+        <br>
+        <span>JOUDO</span>
+      </div>
+
+      <div class="role">
+        SAP ABAP Developer /
+        <strong>AI Explorer</strong>
+      </div>
+
+      <div class="description">
+        SAP・ABAPを中心とした業務システム開発。
+        <br>
+        生成AIとWeb技術も試しながら、
+        自分で作って、動かして、確かめています。
+      </div>
+
+      <div class="launch-area">
+
+        <button
+          class="primary-button"
+          id="playGame"
+          type="button">
+          ▶ PLAY ABAP INVADERS
+        </button>
+
+        <div class="launch-note">
+          INTERACTIVE DEBUG SESSION
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="system-status">
+      SYSTEM ONLINE
+    </div>
+
+  </section>
+
+  <!-- ==================================================
+       LOADING
+  ================================================== -->
+
+  <section
+    id="loadingScreen"
+    class="screen is-hidden">
+
+    <div class="loader-panel">
+
+      <div class="loader-title">
+        INITIALIZING DEBUG ENVIRONMENT
+      </div>
+
+      <div
+        id="loaderLog"
+        class="loader-log">
+      </div>
+
+      <div class="loader-bar"></div>
 
     </div>
 
   </section>
 
+  <!-- ==================================================
+       GAME
+  ================================================== -->
 
-  <div class="status">
-    SYSTEM ONLINE
-  </div>
+  <section
+    id="gameScreen"
+    class="screen is-hidden">
 
+    <header class="game-header">
 
-</main>
+      <div class="game-title">
+        ABAP INVADERS
+      </div>
 
+      <div
+        id="score"
+        class="score">
+        SCORE 0000
+      </div>
+
+    </header>
+
+    <div class="game-shell">
+
+      <canvas
+        id="game"
+        width="900"
+        height="520">
+      </canvas>
+
+    </div>
+
+    <div class="game-footer">
+
+      <div class="controls">
+        MOVE:
+        <strong>← → / A D</strong>
+        &nbsp;&nbsp;
+        SHOOT:
+        <strong>SPACE</strong>
+        &nbsp;&nbsp;
+        RESTART:
+        <strong>R</strong>
+      </div>
+
+      <button
+        id="backProfile"
+        class="back-button"
+        type="button">
+        ← BACK TO PROFILE
+      </button>
+
+    </div>
+
+  </section>
+
+</div>
 
 <script>
+  /* ==================================================
+     SCREENS
+  ================================================== */
 
-const playGame =
-  document.getElementById(
-    "playGame"
-  );
+  const profileScreen =
+    document.getElementById("profileScreen");
 
+  const loadingScreen =
+    document.getElementById("loadingScreen");
 
-playGame.addEventListener(
-  "click",
-  function () {
+  const gameScreen =
+    document.getElementById("gameScreen");
 
-    window.open(
-      "./game.html",
-      "_blank",
-      "noopener,noreferrer"
+  const playGame =
+    document.getElementById("playGame");
+
+  const backProfile =
+    document.getElementById("backProfile");
+
+  const loaderLog =
+    document.getElementById("loaderLog");
+
+  function showOnly(screen) {
+    profileScreen.classList.add("is-hidden");
+    loadingScreen.classList.add("is-hidden");
+    gameScreen.classList.add("is-hidden");
+
+    screen.classList.remove("is-hidden");
+  }
+
+  async function startSequence() {
+    showOnly(loadingScreen);
+
+    const messages = [
+      "> INITIALIZING ABAP RUNTIME...",
+      "> LOADING BUG TABLE...",
+      "> ATTACHING DEBUGGER...",
+      "> BREAKPOINTS ACTIVE...",
+      "> STARTING DEBUG SESSION..."
+    ];
+
+    loaderLog.innerHTML = "";
+
+    for (const message of messages) {
+      const line = document.createElement("div");
+      line.textContent = message;
+      loaderLog.appendChild(line);
+
+      await wait(260);
+    }
+
+    await wait(420);
+
+    startGame();
+    showOnly(gameScreen);
+  }
+
+  function wait(milliseconds) {
+    return new Promise(resolve => {
+      setTimeout(resolve, milliseconds);
+    });
+  }
+
+  playGame.addEventListener("click", startSequence);
+
+  backProfile.addEventListener("click", () => {
+    running = false;
+    keys.arrowleft = false;
+    keys.arrowright = false;
+    keys.a = false;
+    keys.d = false;
+
+    showOnly(profileScreen);
+  });
+
+  /* ==================================================
+     GAME ELEMENTS
+  ================================================== */
+
+  const canvas =
+    document.getElementById("game");
+
+  const ctx =
+    canvas.getContext("2d");
+
+  const scoreElement =
+    document.getElementById("score");
+
+  const keys = {};
+
+  let running = false;
+  let cleared = false;
+  let score = 0;
+  let bullets = [];
+  let bugs = [];
+  let bulletCooldown = false;
+
+  const player = {
+    x: 416,
+    y: 465,
+    width: 68,
+    height: 24,
+    speed: 6
+  };
+
+  /* ==================================================
+     INPUT
+  ================================================== */
+
+  window.addEventListener("keydown", event => {
+    const key = event.key.toLowerCase();
+
+    keys[key] = true;
+
+    if (
+      event.code === "Space" &&
+      !gameScreen.classList.contains("is-hidden")
+    ) {
+      event.preventDefault();
+      shoot();
+    }
+
+    if (
+      key === "r" &&
+      cleared &&
+      !gameScreen.classList.contains("is-hidden")
+    ) {
+      startGame();
+    }
+  });
+
+  window.addEventListener("keyup", event => {
+    keys[event.key.toLowerCase()] = false;
+  });
+
+  /* ==================================================
+     GAME INIT
+  ================================================== */
+
+  function createBugs() {
+    bugs = [];
+
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 8; col++) {
+        bugs.push({
+          x: 100 + col * 90,
+          y: 90 + row * 56,
+          width: 46,
+          height: 28,
+          direction: row % 2 === 0 ? 1 : -1,
+          speed: .55 + row * .1,
+          dead: false
+        });
+      }
+    }
+  }
+
+  function startGame() {
+    score = 0;
+    bullets = [];
+    cleared = false;
+    running = true;
+    bulletCooldown = false;
+
+    player.x = 416;
+
+    scoreElement.textContent = "SCORE 0000";
+
+    createBugs();
+  }
+
+  /* ==================================================
+     SHOOT
+  ================================================== */
+
+  function shoot() {
+    if (
+      !running ||
+      bulletCooldown ||
+      gameScreen.classList.contains("is-hidden")
+    ) {
+      return;
+    }
+
+    bulletCooldown = true;
+
+    bullets.push({
+      x: player.x + player.width / 2 - 2,
+      y: player.y - 20,
+      width: 4,
+      height: 18,
+      speed: 9,
+      dead: false
+    });
+
+    setTimeout(() => {
+      bulletCooldown = false;
+    }, 180);
+  }
+
+  /* ==================================================
+     UPDATE
+  ================================================== */
+
+  function update() {
+    if (
+      keys.arrowleft ||
+      keys.a
+    ) {
+      player.x -= player.speed;
+    }
+
+    if (
+      keys.arrowright ||
+      keys.d
+    ) {
+      player.x += player.speed;
+    }
+
+    player.x = Math.max(
+      0,
+      Math.min(
+        canvas.width - player.width,
+        player.x
+      )
     );
 
+    bullets.forEach(bullet => {
+      bullet.y -= bullet.speed;
+    });
+
+    bullets = bullets.filter(bullet => {
+      return bullet.y > -40 && !bullet.dead;
+    });
+
+    bugs.forEach(bug => {
+      bug.x += bug.direction * bug.speed;
+
+      if (bug.x <= 15) {
+        bug.direction = 1;
+      }
+
+      if (
+        bug.x + bug.width >=
+        canvas.width - 15
+      ) {
+        bug.direction = -1;
+      }
+    });
+
+    collisionCheck();
+
+    if (
+      bugs.length === 0 &&
+      !cleared
+    ) {
+      cleared = true;
+      running = false;
+    }
   }
-);
 
+  function collisionCheck() {
+    bullets.forEach(bullet => {
+      bugs.forEach(bug => {
+        if (
+          bug.dead ||
+          bullet.dead
+        ) {
+          return;
+        }
+
+        const hit =
+          bullet.x < bug.x + bug.width &&
+          bullet.x + bullet.width > bug.x &&
+          bullet.y < bug.y + bug.height &&
+          bullet.y + bullet.height > bug.y;
+
+        if (hit) {
+          bug.dead = true;
+          bullet.dead = true;
+          score += 100;
+        }
+      });
+    });
+
+    bugs = bugs.filter(bug => !bug.dead);
+    bullets = bullets.filter(bullet => !bullet.dead);
+
+    scoreElement.textContent =
+      "SCORE " +
+      String(score).padStart(4, "0");
+  }
+
+  /* ==================================================
+     DRAW
+  ================================================== */
+
+  function drawBackground() {
+    ctx.fillStyle = "#000814";
+
+    ctx.fillRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    ctx.strokeStyle =
+      "rgba(34,211,238,.07)";
+
+    ctx.lineWidth = 1;
+
+    for (
+      let x = 0;
+      x <= canvas.width;
+      x += 45
+    ) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+
+    for (
+      let y = 0;
+      y <= canvas.height;
+      y += 45
+    ) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+  }
+
+  function drawHUD() {
+    ctx.fillStyle = "#67e8f9";
+    ctx.font = "12px Consolas";
+
+    ctx.fillText(
+      "RUNTIME: ACTIVE",
+      20,
+      27
+    );
+
+    ctx.fillStyle = "#64748b";
+
+    ctx.fillText(
+      "TARGET: REMOVE ALL BUGS",
+      20,
+      48
+    );
+  }
+
+  function drawBug(bug) {
+    ctx.fillStyle = "#ec4899";
+
+    ctx.fillRect(
+      bug.x,
+      bug.y,
+      bug.width,
+      bug.height
+    );
+
+    ctx.strokeStyle = "#f9a8d4";
+
+    ctx.strokeRect(
+      bug.x,
+      bug.y,
+      bug.width,
+      bug.height
+    );
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "12px Consolas";
+
+    ctx.fillText(
+      "BUG",
+      bug.x + 10,
+      bug.y + 18
+    );
+  }
+
+  function drawBullets() {
+    ctx.fillStyle = "#4ade80";
+
+    bullets.forEach(bullet => {
+      ctx.fillRect(
+        bullet.x,
+        bullet.y,
+        bullet.width,
+        bullet.height
+      );
+    });
+  }
+
+  function drawPlayer() {
+    ctx.fillStyle = "#22d3ee";
+
+    ctx.fillRect(
+      player.x,
+      player.y,
+      player.width,
+      player.height
+    );
+
+    ctx.fillStyle = "#67e8f9";
+
+    ctx.fillRect(
+      player.x + player.width / 2 - 7,
+      player.y - 12,
+      14,
+      12
+    );
+
+    ctx.fillStyle = "#020617";
+    ctx.font = "bold 12px Consolas";
+
+    ctx.fillText(
+      "DEV",
+      player.x + 21,
+      player.y + 17
+    );
+  }
+
+  function drawClear() {
+    ctx.fillStyle = "rgba(2,6,23,.9)";
+
+    ctx.fillRect(
+      160,
+      165,
+      580,
+      220
+    );
+
+    ctx.strokeStyle = "#4ade80";
+    ctx.lineWidth = 2;
+
+    ctx.strokeRect(
+      160,
+      165,
+      580,
+      220
+    );
+
+    ctx.textAlign = "center";
+
+    ctx.fillStyle = "#4ade80";
+    ctx.font = "bold 42px Consolas";
+
+    ctx.fillText(
+      "DEBUG COMPLETE",
+      canvas.width / 2,
+      235
+    );
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "18px Consolas";
+
+    ctx.fillText(
+      "ALL BUGS REMOVED",
+      canvas.width / 2,
+      275
+    );
+
+    ctx.fillStyle = "#fde68a";
+    ctx.font = "15px Consolas";
+
+    ctx.fillText(
+      "SY-SUBRC = 0",
+      canvas.width / 2,
+      310
+    );
+
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "13px Consolas";
+
+    ctx.fillText(
+      "PRESS R TO RESTART",
+      canvas.width / 2,
+      345
+    );
+
+    ctx.textAlign = "start";
+  }
+
+  function draw() {
+    drawBackground();
+    drawHUD();
+
+    bugs.forEach(drawBug);
+
+    drawBullets();
+    drawPlayer();
+
+    if (cleared) {
+      drawClear();
+    }
+  }
+
+  /* ==================================================
+     LOOP
+  ================================================== */
+
+  function gameLoop() {
+    if (
+      !gameScreen.classList.contains("is-hidden")
+    ) {
+      if (running) {
+        update();
+      }
+
+      draw();
+    }
+
+    requestAnimationFrame(gameLoop);
+  }
+
+  requestAnimationFrame(gameLoop);
 </script>
-
 
 </body>
 </html>
