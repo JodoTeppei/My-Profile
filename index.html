@@ -2,7 +2,9 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
 
 <title>TEPPEI JOUDO | ABAP INVADERS</title>
 
@@ -24,8 +26,10 @@ html,
 body {
   margin: 0;
   padding: 0;
+
   width: 100%;
   height: 100%;
+
   overflow: hidden;
 
   background: #020617;
@@ -43,9 +47,12 @@ button {
 
 .app {
   position: relative;
+
   width: 100%;
-  height: 620px;
+  height: 100%;
+
   overflow: hidden;
+
   background: #020617;
 }
 
@@ -57,6 +64,7 @@ button {
 .profile {
   position: absolute;
   inset: 0;
+
   overflow: hidden;
 
   background:
@@ -85,7 +93,7 @@ button {
 .app.game-open .profile {
   filter:
     blur(7px)
-    brightness(.56);
+    brightness(.54);
 
   transform:
     scale(1.025);
@@ -93,21 +101,31 @@ button {
 
 
 /* ==================================================
-   SIGNALS
+   MOVING SIGNALS
 ================================================== */
 
 .signals {
   position: absolute;
   inset: 0;
+
   overflow: hidden;
+
   pointer-events: none;
 }
 
 .signal {
   position: absolute;
-  bottom: -110px;
-  width: 3px;
+
+  bottom: -24%;
+
+  width: clamp(
+    2px,
+    .28vw,
+    4px
+  );
+
   border-radius: 999px;
+
   opacity: .65;
 
   background:
@@ -132,7 +150,9 @@ button {
 
 @keyframes signalMove {
   from {
-    transform: translateY(130px);
+    transform:
+      translateY(22vh);
+
     opacity: .22;
   }
 
@@ -141,7 +161,9 @@ button {
   }
 
   to {
-    transform: translateY(-170px);
+    transform:
+      translateY(-28vh);
+
     opacity: .4;
   }
 }
@@ -170,6 +192,7 @@ button {
 .grid {
   position: absolute;
   inset: 0;
+
   pointer-events: none;
 
   background-image:
@@ -183,7 +206,9 @@ button {
       transparent 1px
     );
 
-  background-size: 44px 44px;
+  background-size:
+    clamp(28px, 4vw, 48px)
+    clamp(28px, 4vw, 48px);
 }
 
 
@@ -194,14 +219,15 @@ button {
 .profile-overlay {
   position: absolute;
   inset: 0;
+
   pointer-events: none;
 
   background:
     linear-gradient(
       90deg,
       rgba(2, 6, 23, .96) 0%,
-      rgba(2, 6, 23, .78) 38%,
-      rgba(2, 6, 23, .32) 68%,
+      rgba(2, 6, 23, .77) 38%,
+      rgba(2, 6, 23, .31) 68%,
       rgba(2, 6, 23, .08) 100%
     );
 }
@@ -213,11 +239,18 @@ button {
 
 .orb {
   position: absolute;
-  right: 9%;
-  top: 118px;
 
-  width: 205px;
-  height: 205px;
+  right: 9%;
+  top: 18%;
+
+  width:
+    clamp(
+      120px,
+      18vw,
+      220px
+    );
+
+  aspect-ratio: 1;
 
   border-radius: 50%;
 
@@ -233,7 +266,7 @@ button {
 
   box-shadow:
     0 0 25px #22d3ee,
-    0 0 75px rgba(124, 58, 237, .70);
+    0 0 75px rgba(124, 58, 237, .7);
 
   animation:
     orbFloat 3.3s
@@ -244,21 +277,22 @@ button {
 @keyframes orbFloat {
   from {
     transform:
-      translateY(-15px)
+      translateY(-12px)
       scale(.97);
   }
 
   to {
     transform:
-      translateY(15px)
+      translateY(12px)
       scale(1.03);
   }
 }
 
 .orb::before {
   content: "";
+
   position: absolute;
-  inset: -28px;
+  inset: -13%;
 
   border:
     2px dashed
@@ -274,8 +308,9 @@ button {
 
 .orb::after {
   content: "";
+
   position: absolute;
-  inset: 39px;
+  inset: 19%;
 
   border:
     1px solid
@@ -291,13 +326,15 @@ button {
 
 @keyframes spin {
   to {
-    transform: rotate(360deg);
+    transform:
+      rotate(360deg);
   }
 }
 
 @keyframes spinReverse {
   to {
-    transform: rotate(-360deg);
+    transform:
+      rotate(-360deg);
   }
 }
 
@@ -308,18 +345,25 @@ button {
 
 .back-type {
   position: absolute;
-  right: -20px;
-  bottom: -10px;
+
+  right: -1%;
+  bottom: -2%;
 
   color:
     rgba(255, 255, 255, .035);
 
-  font-size: 160px;
+  font-size:
+    clamp(
+      90px,
+      14vw,
+      180px
+    );
+
   font-weight: 1000;
   line-height: .72;
-  letter-spacing: -10px;
-
+  letter-spacing: -.07em;
   text-align: right;
+
   pointer-events: none;
 }
 
@@ -333,7 +377,8 @@ button {
   z-index: 10;
 
   padding:
-    65px 6%;
+    clamp(28px, 6vh, 65px)
+    6%;
 }
 
 .eyebrow {
@@ -344,24 +389,48 @@ button {
     "Courier New",
     monospace;
 
-  font-size: 11px;
+  font-size:
+    clamp(
+      8px,
+      1vw,
+      11px
+    );
+
   font-weight: 700;
-  letter-spacing: 6px;
+
+  letter-spacing:
+    clamp(
+      3px,
+      .5vw,
+      6px
+    );
 }
 
 .name {
-  margin-top: 48px;
+  margin-top:
+    clamp(
+      20px,
+      5vh,
+      48px
+    );
 
   font-size:
     clamp(
-      76px,
-      11vw,
+      54px,
+      10vw,
       135px
     );
 
   line-height: .69;
+
   font-weight: 1000;
-  letter-spacing: -8px;
+
+  letter-spacing:
+    clamp(
+      -8px,
+      -.5vw,
+      -3px
+    );
 
   text-shadow:
     7px 6px 0 #312e81,
@@ -382,12 +451,26 @@ button {
 ================================================== */
 
 .launch-area {
-  margin-top: 52px;
+  margin-top:
+    clamp(
+      24px,
+      6vh,
+      52px
+    );
 }
 
 .primary-button {
   padding:
-    16px 27px;
+    clamp(
+      11px,
+      1.5vh,
+      16px
+    )
+    clamp(
+      17px,
+      2.4vw,
+      27px
+    );
 
   border:
     1px solid #67e8f9;
@@ -408,15 +491,27 @@ button {
     "Courier New",
     monospace;
 
-  font-size: 14px;
+  font-size:
+    clamp(
+      10px,
+      1.15vw,
+      14px
+    );
+
   font-weight: 700;
-  letter-spacing: 2px;
+
+  letter-spacing:
+    clamp(
+      1px,
+      .2vw,
+      2px
+    );
 
   cursor: pointer;
 
   box-shadow:
     0 0 15px
-    rgba(34, 211, 238, .30);
+    rgba(34, 211, 238, .3);
 
   transition:
     transform .2s,
@@ -437,7 +532,7 @@ button {
 
   box-shadow:
     0 0 30px
-    rgba(34, 211, 238, .60);
+    rgba(34, 211, 238, .6);
 }
 
 .primary-button:focus-visible {
@@ -449,7 +544,7 @@ button {
 }
 
 .launch-note {
-  margin-top: 11px;
+  margin-top: 10px;
 
   color: #64748b;
 
@@ -458,7 +553,13 @@ button {
     "Courier New",
     monospace;
 
-  font-size: 10px;
+  font-size:
+    clamp(
+      7px,
+      .8vw,
+      10px
+    );
+
   letter-spacing: 2px;
 }
 
@@ -469,8 +570,9 @@ button {
 
 .system-status {
   position: absolute;
-  right: 30px;
-  bottom: 24px;
+
+  right: 3%;
+  bottom: 4%;
 
   z-index: 12;
 
@@ -481,8 +583,15 @@ button {
     "Courier New",
     monospace;
 
-  font-size: 10px;
+  font-size:
+    clamp(
+      7px,
+      .8vw,
+      10px
+    );
+
   font-weight: 700;
+
   letter-spacing: 3px;
 }
 
@@ -490,6 +599,7 @@ button {
   content: "●";
 
   display: inline-block;
+
   margin-right: 7px;
 
   animation:
@@ -517,13 +627,21 @@ button {
   z-index: 100;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
-  padding: 18px;
+  padding:
+    clamp(
+      7px,
+      1.5vw,
+      18px
+    );
 
   visibility: hidden;
+
   opacity: 0;
+
   pointer-events: none;
 
   background:
@@ -540,7 +658,9 @@ button {
 
 .game-modal.is-open {
   visibility: visible;
+
   opacity: 1;
+
   pointer-events: auto;
 
   backdrop-filter:
@@ -558,14 +678,10 @@ button {
   width:
     min(
       96%,
-      980px
+      1050px
     );
 
-  height:
-    min(
-      96%,
-      584px
-    );
+  height: 94%;
 
   overflow: hidden;
 
@@ -573,7 +689,12 @@ button {
     1px solid
     rgba(103, 232, 249, .55);
 
-  border-radius: 18px;
+  border-radius:
+    clamp(
+      10px,
+      1.5vw,
+      18px
+    );
 
   background:
     linear-gradient(
@@ -638,12 +759,23 @@ button {
 ================================================== */
 
 .game-header {
-  height: 52px;
+  height:
+    clamp(
+      37px,
+      8vh,
+      52px
+    );
 
   padding:
-    0 18px;
+    0
+    clamp(
+      10px,
+      1.5vw,
+      18px
+    );
 
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
@@ -663,36 +795,77 @@ button {
 .game-header-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+
+  gap:
+    clamp(
+      7px,
+      1vw,
+      14px
+    );
 }
 
 .game-title {
   color: #67e8f9;
 
-  font-size: 15px;
+  font-size:
+    clamp(
+      10px,
+      1.3vw,
+      15px
+    );
+
   font-weight: 900;
-  letter-spacing: 3px;
+
+  letter-spacing:
+    clamp(
+      1px,
+      .25vw,
+      3px
+    );
 }
 
 .runtime-status {
   color: #4ade80;
 
-  font-size: 9px;
+  font-size:
+    clamp(
+      6px,
+      .7vw,
+      9px
+    );
+
   letter-spacing: 2px;
 }
 
 .score {
   color: #4ade80;
 
-  font-size: 15px;
+  font-size:
+    clamp(
+      10px,
+      1.3vw,
+      15px
+    );
+
   font-weight: 900;
 }
 
 .close-button {
-  width: 34px;
-  height: 34px;
+  width:
+    clamp(
+      27px,
+      3vw,
+      34px
+    );
 
-  margin-left: 15px;
+  height:
+    clamp(
+      27px,
+      3vw,
+      34px
+    );
+
+  margin-left: 12px;
 
   border:
     1px solid
@@ -705,7 +878,13 @@ button {
 
   color: #fb7185;
 
-  font-size: 20px;
+  font-size:
+    clamp(
+      16px,
+      2vw,
+      20px
+    );
+
   line-height: 1;
 
   cursor: pointer;
@@ -718,6 +897,7 @@ button {
 
 .close-button:hover {
   color: #ffffff;
+
   background: #be123c;
 
   transform:
@@ -733,10 +913,26 @@ button {
   position: relative;
 
   height:
-    calc(100% - 100px);
+    calc(
+      100% -
+      clamp(
+        76px,
+        15vh,
+        100px
+      )
+    );
 
   padding:
-    10px 14px;
+    clamp(
+      5px,
+      1vh,
+      10px
+    )
+    clamp(
+      7px,
+      1.3vw,
+      14px
+    );
 }
 
 .game-shell {
@@ -780,11 +976,21 @@ canvas {
   position: absolute;
 
   inset:
-    10px 14px;
+    clamp(
+      5px,
+      1vh,
+      10px
+    )
+    clamp(
+      7px,
+      1.3vw,
+      14px
+    );
 
   z-index: 20;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -800,6 +1006,7 @@ canvas {
 
 .loading-overlay.is-hidden {
   visibility: hidden;
+
   opacity: 0;
 
   pointer-events: none;
@@ -812,7 +1019,12 @@ canvas {
       610px
     );
 
-  padding: 28px;
+  padding:
+    clamp(
+      16px,
+      3vh,
+      28px
+    );
 
   border:
     1px solid
@@ -836,20 +1048,46 @@ canvas {
 .loader-title {
   color: #67e8f9;
 
-  font-size: 12px;
+  font-size:
+    clamp(
+      8px,
+      1vw,
+      12px
+    );
+
   font-weight: 700;
 
-  letter-spacing: 4px;
+  letter-spacing:
+    clamp(
+      2px,
+      .3vw,
+      4px
+    );
 }
 
 .loader-log {
-  min-height: 125px;
+  min-height:
+    clamp(
+      80px,
+      18vh,
+      125px
+    );
 
-  margin-top: 18px;
+  margin-top:
+    clamp(
+      10px,
+      2vh,
+      18px
+    );
 
   color: #cbd5e1;
 
-  font-size: 12px;
+  font-size:
+    clamp(
+      8px,
+      1vw,
+      12px
+    );
 
   line-height: 1.9;
 }
@@ -865,7 +1103,12 @@ canvas {
 
   height: 7px;
 
-  margin-top: 17px;
+  margin-top:
+    clamp(
+      9px,
+      2vh,
+      17px
+    );
 
   overflow: hidden;
 
@@ -918,10 +1161,20 @@ canvas {
 ================================================== */
 
 .game-footer {
-  height: 48px;
+  height:
+    clamp(
+      39px,
+      7vh,
+      48px
+    );
 
   padding:
-    0 18px;
+    0
+    clamp(
+      9px,
+      1.5vw,
+      18px
+    );
 
   display: flex;
   align-items: center;
@@ -939,7 +1192,12 @@ canvas {
     "Courier New",
     monospace;
 
-  font-size: 10px;
+  font-size:
+    clamp(
+      7px,
+      .85vw,
+      10px
+    );
 }
 
 .controls {
@@ -953,42 +1211,82 @@ canvas {
 .game-message {
   color: #fde68a;
 
+  font-size:
+    clamp(
+      7px,
+      .85vw,
+      10px
+    );
+
   letter-spacing: 2px;
 }
 
 
 /* ==================================================
-   RESPONSIVE
+   COMPACT VIEW
 ================================================== */
 
-@media (max-width: 760px) {
+@media (
+  max-height: 500px
+) {
+
+  .profile-content {
+    padding-top: 22px;
+  }
+
+  .name {
+    margin-top: 17px;
+  }
+
+  .launch-area {
+    margin-top: 18px;
+  }
+
   .orb {
-    right: -55px;
+    top: 15%;
+  }
+
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (
+  max-width: 700px
+) {
+
+  .orb {
+    right: -50px;
+
     opacity: .42;
   }
 
   .profile-content {
-    padding:
-      52px 7%;
-  }
-
-  .game-modal {
-    padding: 8px;
-  }
-
-  .game-window {
-    width: 100%;
-    height: 98%;
-    border-radius: 12px;
+    padding-left: 7%;
+    padding-right: 7%;
   }
 
   .runtime-status {
     display: none;
   }
 
-  .game-footer {
-    padding: 0 10px;
+  .game-modal {
+    padding: 5px;
   }
+
+  .game-window {
+    width: 100%;
+    height: 98%;
+
+    border-radius: 10px;
+  }
+
+  .controls {
+    max-width: 65%;
+  }
+
 }
 
 </style>
@@ -1012,33 +1310,139 @@ canvas {
 
     <div class="signals">
 
-      <i class="signal" style="left:5%;height:220px;"></i>
-      <i class="signal" style="left:10%;height:270px;"></i>
-      <i class="signal" style="left:15%;height:320px;"></i>
-      <i class="signal" style="left:20%;height:365px;"></i>
-      <i class="signal" style="left:25%;height:400px;"></i>
-      <i class="signal" style="left:30%;height:430px;"></i>
-      <i class="signal" style="left:35%;height:455px;"></i>
-      <i class="signal" style="left:40%;height:475px;"></i>
-      <i class="signal" style="left:45%;height:490px;"></i>
+      <i
+        class="signal"
+        style="
+        left:5%;
+        height:38%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:10%;
+        height:46%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:15%;
+        height:54%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:20%;
+        height:61%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:25%;
+        height:67%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:30%;
+        height:72%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:35%;
+        height:76%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:40%;
+        height:79%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:45%;
+        height:81%;">
+      </i>
 
       <i
         class="signal"
         style="
         left:50%;
-        height:500px;
+        height:83%;
         width:5px;">
       </i>
 
-      <i class="signal" style="left:55%;height:490px;"></i>
-      <i class="signal" style="left:60%;height:475px;"></i>
-      <i class="signal" style="left:65%;height:455px;"></i>
-      <i class="signal" style="left:70%;height:430px;"></i>
-      <i class="signal" style="left:75%;height:400px;"></i>
-      <i class="signal" style="left:80%;height:365px;"></i>
-      <i class="signal" style="left:85%;height:320px;"></i>
-      <i class="signal" style="left:90%;height:270px;"></i>
-      <i class="signal" style="left:95%;height:220px;"></i>
+      <i
+        class="signal"
+        style="
+        left:55%;
+        height:81%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:60%;
+        height:79%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:65%;
+        height:76%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:70%;
+        height:72%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:75%;
+        height:67%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:80%;
+        height:61%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:85%;
+        height:54%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:90%;
+        height:46%;">
+      </i>
+
+      <i
+        class="signal"
+        style="
+        left:95%;
+        height:38%;">
+      </i>
 
     </div>
 
@@ -1168,9 +1572,10 @@ canvas {
 
           <canvas
             id="game"
-            width="900"
-            height="470"
-            tabindex="0">
+            width="960"
+            height="540"
+            tabindex="0"
+            aria-label="ABAP Invaders game canvas">
           </canvas>
 
         </div>
@@ -1217,14 +1622,14 @@ canvas {
             ← → / A D
           </strong>
 
-          &nbsp;&nbsp;
+          &nbsp;
 
           SHOOT:
           <strong>
             SPACE
           </strong>
 
-          &nbsp;&nbsp;
+          &nbsp;
 
           RESTART:
           <strong>
@@ -1253,7 +1658,6 @@ canvas {
 
 
 </div>
-
 
 <script>
 
@@ -1313,8 +1717,8 @@ let bulletCooldown = false;
 ================================================== */
 
 const player = {
-  x: 416,
-  y: 420,
+  x: 446,
+  y: 485,
   width: 68,
   height: 24,
   speed: 6
@@ -1409,12 +1813,12 @@ async function openGame() {
     );
 
 
-    await wait(210);
+    await wait(180);
 
   }
 
 
-  await wait(280);
+  await wait(220);
 
 
   if (!modalOpen) {
@@ -1499,12 +1903,12 @@ function createBugs() {
       bugs.push({
 
         x:
-          95 +
-          col * 90,
+          110 +
+          col * 92,
 
         y:
-          72 +
-          row * 54,
+          82 +
+          row * 58,
 
         width:
           46,
@@ -1546,7 +1950,7 @@ function startGame() {
   running = true;
   bulletCooldown = false;
 
-  player.x = 416;
+  player.x = 446;
 
   scoreElement.textContent =
     "SCORE 0000";
@@ -1557,7 +1961,7 @@ function startGame() {
 
 
 /* ==================================================
-   KEYBOARD INPUT
+   INPUT
 ================================================== */
 
 window.addEventListener(
@@ -1860,7 +2264,6 @@ function update() {
   ) {
 
     cleared = true;
-
     running = false;
 
     gameMessage.textContent =
@@ -1999,7 +2402,7 @@ function drawBackground() {
   for (
     let x = 0;
     x <= canvas.width;
-    x += 45
+    x += 48
   ) {
 
     ctx.beginPath();
@@ -2022,7 +2425,7 @@ function drawBackground() {
   for (
     let y = 0;
     y <= canvas.height;
-    y += 45
+    y += 48
   ) {
 
     ctx.beginPath();
@@ -2251,10 +2654,10 @@ function drawClear() {
 
 
   ctx.fillRect(
-    150,
-    135,
-    600,
-    225
+    170,
+    160,
+    620,
+    235
   );
 
 
@@ -2266,10 +2669,10 @@ function drawClear() {
 
 
   ctx.strokeRect(
-    150,
-    135,
-    600,
-    225
+    170,
+    160,
+    620,
+    235
   );
 
 
@@ -2288,7 +2691,7 @@ function drawClear() {
   ctx.fillText(
     "DEBUG COMPLETE",
     canvas.width / 2,
-    205
+    230
   );
 
 
@@ -2303,7 +2706,7 @@ function drawClear() {
   ctx.fillText(
     "ALL BUGS REMOVED",
     canvas.width / 2,
-    247
+    273
   );
 
 
@@ -2318,7 +2721,7 @@ function drawClear() {
   ctx.fillText(
     "SY-SUBRC = 0",
     canvas.width / 2,
-    286
+    315
   );
 
 
@@ -2333,7 +2736,7 @@ function drawClear() {
   ctx.fillText(
     "PRESS R TO RESTART",
     canvas.width / 2,
-    325
+    357
   );
 
 
@@ -2376,7 +2779,7 @@ function draw() {
 
 
 /* ==================================================
-   GAME LOOP
+   LOOP
 ================================================== */
 
 function gameLoop() {
@@ -2385,13 +2788,17 @@ function gameLoop() {
     modalOpen
   ) {
 
-    if (
-      running &&
+    const loaded =
       loadingOverlay
         .classList
         .contains(
           "is-hidden"
-        )
+        );
+
+
+    if (
+      running &&
+      loaded
     ) {
 
       update();
@@ -2399,13 +2806,7 @@ function gameLoop() {
     }
 
 
-    if (
-      loadingOverlay
-        .classList
-        .contains(
-          "is-hidden"
-        )
-    ) {
+    if (loaded) {
 
       draw();
 
@@ -2463,7 +2864,6 @@ requestAnimationFrame(
 );
 
 </script>
-
 
 </body>
 </html>
