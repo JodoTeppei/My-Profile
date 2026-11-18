@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1.0">
@@ -70,12 +71,12 @@ button {
   background:
     radial-gradient(
       circle at 77% 36%,
-      rgba(139, 92, 246, .32),
+      rgba(139, 92, 246, .30),
       transparent 32%
     ),
     radial-gradient(
       circle at 90% 80%,
-      rgba(236, 72, 153, .16),
+      rgba(236, 72, 153, .14),
       transparent 25%
     ),
     linear-gradient(
@@ -86,17 +87,35 @@ button {
     );
 
   transition:
-    filter .45s ease,
-    transform .45s ease;
+    filter .3s ease,
+    transform .3s ease;
 }
 
-.app.game-open .profile {
-  filter:
-    blur(7px)
-    brightness(.54);
+/*
+  blur()は使わない。
+  ゲーム開始時は暗くして少しだけ拡大する。
+*/
 
-  transform:
-    scale(1.025);
+.app.game-open .profile {
+  filter: brightness(.38);
+  transform: scale(1.01);
+}
+
+
+/* ==================================================
+   PROFILE ANIMATION PAUSE
+================================================== */
+
+/*
+  ゲーム中は背面アニメーションをすべて停止する。
+*/
+
+.app.game-open .signal,
+.app.game-open .orb,
+.app.game-open .orb::before,
+.app.game-open .orb::after,
+.app.game-open .system-status::before {
+  animation-play-state: paused;
 }
 
 
@@ -118,15 +137,16 @@ button {
 
   bottom: -24%;
 
-  width: clamp(
-    2px,
-    .28vw,
-    4px
-  );
+  width:
+    clamp(
+      2px,
+      .25vw,
+      4px
+    );
 
   border-radius: 999px;
 
-  opacity: .65;
+  opacity: .62;
 
   background:
     linear-gradient(
@@ -139,8 +159,7 @@ button {
     );
 
   box-shadow:
-    0 0 7px #22d3ee,
-    0 0 18px rgba(129, 140, 248, .8);
+    0 0 6px rgba(34, 211, 238, .8);
 
   animation:
     signalMove 4s
@@ -149,23 +168,25 @@ button {
 }
 
 @keyframes signalMove {
+
   from {
     transform:
       translateY(22vh);
 
-    opacity: .22;
+    opacity: .20;
   }
 
   50% {
-    opacity: .92;
+    opacity: .82;
   }
 
   to {
     transform:
       translateY(-28vh);
 
-    opacity: .4;
+    opacity: .36;
   }
+
 }
 
 .signal:nth-child(2n) {
@@ -186,10 +207,10 @@ button {
 
 
 /* ==================================================
-   GRID
+   PROFILE GRID
 ================================================== */
 
-.grid {
+.profile-grid {
   position: absolute;
   inset: 0;
 
@@ -197,12 +218,12 @@ button {
 
   background-image:
     linear-gradient(
-      rgba(103, 232, 249, .07) 1px,
+      rgba(103, 232, 249, .06) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(103, 232, 249, .07) 1px,
+      rgba(103, 232, 249, .06) 1px,
       transparent 1px
     );
 
@@ -245,9 +266,9 @@ button {
 
   width:
     clamp(
-      120px,
-      18vw,
-      220px
+      110px,
+      17vw,
+      205px
     );
 
   aspect-ratio: 1;
@@ -265,8 +286,8 @@ button {
     );
 
   box-shadow:
-    0 0 25px #22d3ee,
-    0 0 75px rgba(124, 58, 237, .7);
+    0 0 20px rgba(34, 211, 238, .9),
+    0 0 55px rgba(124, 58, 237, .55);
 
   animation:
     orbFloat 3.3s
@@ -275,17 +296,19 @@ button {
 }
 
 @keyframes orbFloat {
+
   from {
     transform:
-      translateY(-12px)
-      scale(.97);
+      translateY(-10px)
+      scale(.98);
   }
 
   to {
     transform:
-      translateY(12px)
-      scale(1.03);
+      translateY(10px)
+      scale(1.02);
   }
+
 }
 
 .orb::before {
@@ -295,8 +318,8 @@ button {
   inset: -13%;
 
   border:
-    2px dashed
-    rgba(103, 232, 249, .55);
+    1px dashed
+    rgba(103, 232, 249, .52);
 
   border-radius: 50%;
 
@@ -314,28 +337,30 @@ button {
 
   border:
     1px solid
-    rgba(255, 255, 255, .35);
+    rgba(255, 255, 255, .30);
 
   border-radius: 50%;
 
   animation:
-    spinReverse 5s
+    spinReverse 6s
     linear
     infinite;
 }
 
 @keyframes spin {
+
   to {
-    transform:
-      rotate(360deg);
+    transform: rotate(360deg);
   }
+
 }
 
 @keyframes spinReverse {
+
   to {
-    transform:
-      rotate(-360deg);
+    transform: rotate(-360deg);
   }
+
 }
 
 
@@ -377,7 +402,7 @@ button {
   z-index: 10;
 
   padding:
-    clamp(28px, 6vh, 65px)
+    clamp(24px, 5vh, 60px)
     6%;
 }
 
@@ -409,16 +434,16 @@ button {
 .name {
   margin-top:
     clamp(
-      20px,
-      5vh,
-      48px
+      18px,
+      4.5vh,
+      44px
     );
 
   font-size:
     clamp(
-      54px,
+      52px,
       10vw,
-      135px
+      130px
     );
 
   line-height: .69;
@@ -442,7 +467,7 @@ button {
 
   text-shadow:
     4px 4px 0 rgba(67, 56, 202, .82),
-    0 0 22px rgba(34, 211, 238, .25);
+    0 0 20px rgba(34, 211, 238, .22);
 }
 
 
@@ -453,23 +478,23 @@ button {
 .launch-area {
   margin-top:
     clamp(
-      24px,
-      6vh,
-      52px
+      22px,
+      5vh,
+      46px
     );
 }
 
 .primary-button {
   padding:
     clamp(
-      11px,
-      1.5vh,
-      16px
+      10px,
+      1.4vh,
+      15px
     )
     clamp(
-      17px,
-      2.4vw,
-      27px
+      16px,
+      2.3vw,
+      26px
     );
 
   border:
@@ -510,18 +535,18 @@ button {
   cursor: pointer;
 
   box-shadow:
-    0 0 15px
-    rgba(34, 211, 238, .3);
+    0 0 14px
+    rgba(34, 211, 238, .28);
 
   transition:
-    transform .2s,
-    box-shadow .2s,
-    background .2s;
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
 }
 
 .primary-button:hover {
   transform:
-    translateY(-3px);
+    translateY(-2px);
 
   background:
     linear-gradient(
@@ -531,8 +556,8 @@ button {
     );
 
   box-shadow:
-    0 0 30px
-    rgba(34, 211, 238, .6);
+    0 0 24px
+    rgba(34, 211, 238, .5);
 }
 
 .primary-button:focus-visible {
@@ -544,7 +569,7 @@ button {
 }
 
 .launch-note {
-  margin-top: 10px;
+  margin-top: 9px;
 
   color: #64748b;
 
@@ -565,7 +590,7 @@ button {
 
 
 /* ==================================================
-   PROFILE STATUS
+   STATUS
 ================================================== */
 
 .system-status {
@@ -610,9 +635,11 @@ button {
 }
 
 @keyframes statusBlink {
+
   50% {
     opacity: .2;
   }
+
 }
 
 
@@ -627,44 +654,32 @@ button {
   z-index: 100;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   padding:
     clamp(
-      7px,
-      1.5vw,
-      18px
+      6px,
+      1.2vw,
+      14px
     );
 
   visibility: hidden;
-
   opacity: 0;
-
   pointer-events: none;
 
   background:
-    rgba(2, 6, 23, .46);
-
-  backdrop-filter:
-    blur(0);
+    rgba(2, 6, 23, .76);
 
   transition:
-    opacity .38s ease,
-    visibility .38s ease,
-    backdrop-filter .38s ease;
+    opacity .25s ease,
+    visibility .25s ease;
 }
 
 .game-modal.is-open {
   visibility: visible;
-
   opacity: 1;
-
   pointer-events: auto;
-
-  backdrop-filter:
-    blur(5px);
 }
 
 
@@ -678,7 +693,7 @@ button {
   width:
     min(
       96%,
-      1050px
+      980px
     );
 
   height: 94%;
@@ -687,36 +702,34 @@ button {
 
   border:
     1px solid
-    rgba(103, 232, 249, .55);
+    rgba(103, 232, 249, .48);
 
   border-radius:
     clamp(
-      10px,
-      1.5vw,
-      18px
+      8px,
+      1.3vw,
+      16px
     );
 
   background:
     linear-gradient(
       145deg,
-      rgba(0, 8, 20, .96),
-      rgba(15, 7, 35, .96)
+      rgba(0, 8, 20, .98),
+      rgba(15, 7, 35, .98)
     );
 
   box-shadow:
-    0 0 35px
-    rgba(34, 211, 238, .28),
-
-    0 28px 95px
-    rgba(0, 0, 0, .78);
+    0 0 25px
+    rgba(34, 211, 238, .20),
+    0 20px 60px
+    rgba(0, 0, 0, .65);
 
   transform:
-    scale(.88)
-    translateY(20px);
+    scale(.94)
+    translateY(10px);
 
   transition:
-    transform .38s
-    cubic-bezier(.22, 1, .36, 1);
+    transform .25s ease;
 }
 
 .game-modal.is-open
@@ -748,9 +761,6 @@ button {
       #ec4899,
       transparent
     );
-
-  box-shadow:
-    0 0 14px #22d3ee;
 }
 
 
@@ -761,30 +771,29 @@ button {
 .game-header {
   height:
     clamp(
-      37px,
-      8vh,
-      52px
+      35px,
+      7vh,
+      48px
     );
 
   padding:
     0
     clamp(
-      10px,
-      1.5vw,
-      18px
+      9px,
+      1.4vw,
+      16px
     );
 
   display: flex;
-
   align-items: center;
   justify-content: space-between;
 
   border-bottom:
     1px solid
-    rgba(103, 232, 249, .18);
+    rgba(103, 232, 249, .16);
 
   background:
-    rgba(2, 6, 23, .88);
+    rgba(2, 6, 23, .92);
 
   font-family:
     Consolas,
@@ -798,9 +807,9 @@ button {
 
   gap:
     clamp(
-      7px,
+      6px,
       1vw,
-      14px
+      12px
     );
 }
 
@@ -809,9 +818,9 @@ button {
 
   font-size:
     clamp(
-      10px,
-      1.3vw,
-      15px
+      9px,
+      1.2vw,
+      14px
     );
 
   font-weight: 900;
@@ -830,8 +839,8 @@ button {
   font-size:
     clamp(
       6px,
-      .7vw,
-      9px
+      .65vw,
+      8px
     );
 
   letter-spacing: 2px;
@@ -842,9 +851,9 @@ button {
 
   font-size:
     clamp(
-      10px,
-      1.3vw,
-      15px
+      9px,
+      1.2vw,
+      14px
     );
 
   font-weight: 900;
@@ -853,25 +862,25 @@ button {
 .close-button {
   width:
     clamp(
-      27px,
-      3vw,
-      34px
+      25px,
+      2.8vw,
+      32px
     );
 
   height:
     clamp(
-      27px,
-      3vw,
-      34px
+      25px,
+      2.8vw,
+      32px
     );
 
-  margin-left: 12px;
+  margin-left: 10px;
 
   border:
     1px solid
-    rgba(251, 113, 133, .55);
+    rgba(251, 113, 133, .5);
 
-  border-radius: 8px;
+  border-radius: 7px;
 
   background:
     rgba(127, 29, 29, .18);
@@ -880,28 +889,19 @@ button {
 
   font-size:
     clamp(
-      16px,
-      2vw,
-      20px
+      15px,
+      1.7vw,
+      19px
     );
 
   line-height: 1;
 
   cursor: pointer;
-
-  transition:
-    color .2s,
-    background .2s,
-    transform .2s;
 }
 
 .close-button:hover {
   color: #ffffff;
-
   background: #be123c;
-
-  transform:
-    scale(1.06);
 }
 
 
@@ -916,22 +916,22 @@ button {
     calc(
       100% -
       clamp(
-        76px,
-        15vh,
-        100px
+        70px,
+        14vh,
+        92px
       )
     );
 
   padding:
     clamp(
-      5px,
-      1vh,
-      10px
+      4px,
+      .8vh,
+      8px
     )
     clamp(
-      7px,
-      1.3vw,
-      14px
+      6px,
+      1.1vw,
+      11px
     );
 }
 
@@ -945,15 +945,25 @@ button {
 
   border:
     1px solid
-    rgba(103, 232, 249, .28);
+    rgba(103, 232, 249, .25);
 
-  border-radius: 10px;
+  border-radius: 8px;
 
-  background: #000814;
+  background-color: #000814;
 
-  box-shadow:
-    inset 0 0 35px
-    rgba(34, 211, 238, .06);
+  background-image:
+    linear-gradient(
+      rgba(34, 211, 238, .065) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(34, 211, 238, .065) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    32px 32px;
 }
 
 canvas {
@@ -962,14 +972,16 @@ canvas {
   width: 100%;
   height: 100%;
 
-  background: #000814;
+  background: transparent;
+
+  image-rendering: auto;
 
   outline: none;
 }
 
 
 /* ==================================================
-   LOADING OVERLAY
+   LOADING
 ================================================== */
 
 .loading-overlay {
@@ -977,67 +989,60 @@ canvas {
 
   inset:
     clamp(
-      5px,
-      1vh,
-      10px
+      4px,
+      .8vh,
+      8px
     )
     clamp(
-      7px,
-      1.3vw,
-      14px
+      6px,
+      1.1vw,
+      11px
     );
 
   z-index: 20;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  border-radius: 10px;
+  border-radius: 8px;
 
   background:
-    rgba(0, 8, 20, .95);
+    rgba(0, 8, 20, .98);
 
   transition:
-    opacity .3s ease,
-    visibility .3s ease;
+    opacity .2s ease,
+    visibility .2s ease;
 }
 
 .loading-overlay.is-hidden {
   visibility: hidden;
-
   opacity: 0;
-
   pointer-events: none;
 }
 
 .loader-panel {
   width:
     min(
-      88%,
-      610px
+      86%,
+      560px
     );
 
   padding:
     clamp(
-      16px,
-      3vh,
-      28px
+      14px,
+      2.5vh,
+      24px
     );
 
   border:
     1px solid
-    rgba(103, 232, 249, .35);
+    rgba(103, 232, 249, .3);
 
-  border-radius: 15px;
+  border-radius: 12px;
 
   background:
-    rgba(2, 6, 23, .88);
-
-  box-shadow:
-    0 0 32px
-    rgba(34, 211, 238, .13);
+    rgba(2, 6, 23, .93);
 
   font-family:
     Consolas,
@@ -1051,8 +1056,8 @@ canvas {
   font-size:
     clamp(
       8px,
-      1vw,
-      12px
+      .95vw,
+      11px
     );
 
   font-weight: 700;
@@ -1068,16 +1073,16 @@ canvas {
 .loader-log {
   min-height:
     clamp(
-      80px,
-      18vh,
-      125px
+      70px,
+      16vh,
+      110px
     );
 
   margin-top:
     clamp(
-      10px,
-      2vh,
-      18px
+      8px,
+      1.7vh,
+      15px
     );
 
   color: #cbd5e1;
@@ -1085,29 +1090,28 @@ canvas {
   font-size:
     clamp(
       8px,
-      1vw,
-      12px
+      .95vw,
+      11px
     );
 
-  line-height: 1.9;
+  line-height: 1.8;
 }
 
 .loader-log div::before {
   content: "› ";
-
   color: #4ade80;
 }
 
 .loader-bar {
   position: relative;
 
-  height: 7px;
+  height: 6px;
 
   margin-top:
     clamp(
-      9px,
-      2vh,
-      17px
+      8px,
+      1.7vh,
+      14px
     );
 
   overflow: hidden;
@@ -1133,9 +1137,6 @@ canvas {
       #ec4899
     );
 
-  box-shadow:
-    0 0 18px #22d3ee;
-
   animation:
     loadingMove
     .72s
@@ -1144,6 +1145,7 @@ canvas {
 }
 
 @keyframes loadingMove {
+
   from {
     transform:
       translateX(-30%);
@@ -1153,6 +1155,7 @@ canvas {
     transform:
       translateX(205%);
   }
+
 }
 
 
@@ -1163,17 +1166,17 @@ canvas {
 .game-footer {
   height:
     clamp(
-      39px,
-      7vh,
-      48px
+      35px,
+      6.5vh,
+      44px
     );
 
   padding:
     0
     clamp(
-      9px,
-      1.5vw,
-      18px
+      8px,
+      1.3vw,
+      15px
     );
 
   display: flex;
@@ -1182,10 +1185,10 @@ canvas {
 
   border-top:
     1px solid
-    rgba(103, 232, 249, .16);
+    rgba(103, 232, 249, .14);
 
   background:
-    rgba(2, 6, 23, .86);
+    rgba(2, 6, 23, .9);
 
   font-family:
     Consolas,
@@ -1195,8 +1198,8 @@ canvas {
   font-size:
     clamp(
       7px,
-      .85vw,
-      10px
+      .8vw,
+      9px
     );
 }
 
@@ -1214,36 +1217,34 @@ canvas {
   font-size:
     clamp(
       7px,
-      .85vw,
-      10px
+      .8vw,
+      9px
     );
 
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 
 /* ==================================================
-   COMPACT VIEW
+   COMPACT
 ================================================== */
 
-@media (
-  max-height: 500px
-) {
+@media (max-height: 500px) {
 
   .profile-content {
-    padding-top: 22px;
+    padding-top: 20px;
   }
 
   .name {
-    margin-top: 17px;
+    margin-top: 15px;
   }
 
   .launch-area {
-    margin-top: 18px;
+    margin-top: 17px;
   }
 
   .orb {
-    top: 15%;
+    top: 14%;
   }
 
 }
@@ -1253,14 +1254,11 @@ canvas {
    MOBILE
 ================================================== */
 
-@media (
-  max-width: 700px
-) {
+@media (max-width: 700px) {
 
   .orb {
     right: -50px;
-
-    opacity: .42;
+    opacity: .40;
   }
 
   .profile-content {
@@ -1273,14 +1271,13 @@ canvas {
   }
 
   .game-modal {
-    padding: 5px;
+    padding: 4px;
   }
 
   .game-window {
     width: 100%;
     height: 98%;
-
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   .controls {
@@ -1292,7 +1289,9 @@ canvas {
 </style>
 </head>
 
+
 <body>
+
 
 <div
   class="app"
@@ -1312,65 +1311,47 @@ canvas {
 
       <i
         class="signal"
-        style="
-        left:5%;
-        height:38%;">
+        style="left:5%;height:38%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:10%;
-        height:46%;">
+        style="left:10%;height:46%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:15%;
-        height:54%;">
+        style="left:15%;height:54%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:20%;
-        height:61%;">
+        style="left:20%;height:61%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:25%;
-        height:67%;">
+        style="left:25%;height:67%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:30%;
-        height:72%;">
+        style="left:30%;height:72%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:35%;
-        height:76%;">
+        style="left:35%;height:76%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:40%;
-        height:79%;">
+        style="left:40%;height:79%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:45%;
-        height:81%;">
+        style="left:45%;height:81%;">
       </i>
 
       <i
@@ -1383,71 +1364,53 @@ canvas {
 
       <i
         class="signal"
-        style="
-        left:55%;
-        height:81%;">
+        style="left:55%;height:81%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:60%;
-        height:79%;">
+        style="left:60%;height:79%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:65%;
-        height:76%;">
+        style="left:65%;height:76%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:70%;
-        height:72%;">
+        style="left:70%;height:72%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:75%;
-        height:67%;">
+        style="left:75%;height:67%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:80%;
-        height:61%;">
+        style="left:80%;height:61%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:85%;
-        height:54%;">
+        style="left:85%;height:54%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:90%;
-        height:46%;">
+        style="left:90%;height:46%;">
       </i>
 
       <i
         class="signal"
-        style="
-        left:95%;
-        height:38%;">
+        style="left:95%;height:38%;">
       </i>
 
     </div>
 
 
-    <div class="grid"></div>
+    <div class="profile-grid"></div>
 
     <div class="orb"></div>
 
@@ -1572,8 +1535,8 @@ canvas {
 
           <canvas
             id="game"
-            width="960"
-            height="540"
+            width="640"
+            height="360"
             tabindex="0"
             aria-label="ABAP Invaders game canvas">
           </canvas>
@@ -1659,6 +1622,7 @@ canvas {
 
 </div>
 
+
 <script>
 
 /* ==================================================
@@ -1666,34 +1630,57 @@ canvas {
 ================================================== */
 
 const app =
-  document.getElementById("app");
+  document.getElementById(
+    "app"
+  );
 
 const playGame =
-  document.getElementById("playGame");
+  document.getElementById(
+    "playGame"
+  );
 
 const gameModal =
-  document.getElementById("gameModal");
+  document.getElementById(
+    "gameModal"
+  );
 
 const closeGame =
-  document.getElementById("closeGame");
+  document.getElementById(
+    "closeGame"
+  );
 
 const loadingOverlay =
-  document.getElementById("loadingOverlay");
+  document.getElementById(
+    "loadingOverlay"
+  );
 
 const loaderLog =
-  document.getElementById("loaderLog");
+  document.getElementById(
+    "loaderLog"
+  );
 
 const gameMessage =
-  document.getElementById("gameMessage");
+  document.getElementById(
+    "gameMessage"
+  );
 
 const canvas =
-  document.getElementById("game");
+  document.getElementById(
+    "game"
+  );
 
 const ctx =
-  canvas.getContext("2d");
+  canvas.getContext(
+    "2d",
+    {
+      alpha: true
+    }
+  );
 
 const scoreElement =
-  document.getElementById("score");
+  document.getElementById(
+    "score"
+  );
 
 
 /* ==================================================
@@ -1702,14 +1689,32 @@ const scoreElement =
 
 const keys = {};
 
-let running = false;
-let modalOpen = false;
-let cleared = false;
-let score = 0;
-let bullets = [];
-let bugs = [];
-let particles = [];
-let bulletCooldown = false;
+let running =
+  false;
+
+let modalOpen =
+  false;
+
+let cleared =
+  false;
+
+let score =
+  0;
+
+let bullets =
+  [];
+
+let bugs =
+  [];
+
+let particles =
+  [];
+
+let bulletCooldown =
+  false;
+
+let lastFrameTime =
+  0;
 
 
 /* ==================================================
@@ -1717,11 +1722,17 @@ let bulletCooldown = false;
 ================================================== */
 
 const player = {
-  x: 446,
-  y: 485,
-  width: 68,
-  height: 24,
-  speed: 6
+
+  x: 292,
+
+  y: 315,
+
+  width: 56,
+
+  height: 20,
+
+  speed: 4.6
+
 };
 
 
@@ -1729,16 +1740,20 @@ const player = {
    UTILITY
 ================================================== */
 
-function wait(milliseconds) {
+function wait(
+  milliseconds
+) {
 
-  return new Promise(resolve => {
+  return new Promise(
+    resolve => {
 
-    setTimeout(
-      resolve,
-      milliseconds
-    );
+      setTimeout(
+        resolve,
+        milliseconds
+      );
 
-  });
+    }
+  );
 
 }
 
@@ -1754,7 +1769,8 @@ async function openGame() {
   }
 
 
-  modalOpen = true;
+  modalOpen =
+    true;
 
 
   app.classList.add(
@@ -1772,7 +1788,8 @@ async function openGame() {
   );
 
 
-  loaderLog.innerHTML = "";
+  loaderLog.innerHTML =
+    "";
 
 
   gameMessage.textContent =
@@ -1780,11 +1797,17 @@ async function openGame() {
 
 
   const messages = [
+
     "INITIALIZING ABAP RUNTIME...",
+
     "LOADING BUG TABLE...",
+
     "ATTACHING DEBUGGER...",
+
     "ACTIVATING BREAKPOINTS...",
+
     "DEBUG SESSION READY"
+
   ];
 
 
@@ -1813,12 +1836,16 @@ async function openGame() {
     );
 
 
-    await wait(180);
+    await wait(
+      150
+    );
 
   }
 
 
-  await wait(220);
+  await wait(
+    150
+  );
 
 
   if (!modalOpen) {
@@ -1849,14 +1876,24 @@ async function openGame() {
 
 function hideGame() {
 
-  modalOpen = false;
-  running = false;
+  modalOpen =
+    false;
+
+  running =
+    false;
 
 
-  keys.arrowleft = false;
-  keys.arrowright = false;
-  keys.a = false;
-  keys.d = false;
+  keys.arrowleft =
+    false;
+
+  keys.arrowright =
+    false;
+
+  keys.a =
+    false;
+
+  keys.d =
+    false;
 
 
   app.classList.remove(
@@ -1880,12 +1917,13 @@ function hideGame() {
 
 
 /* ==================================================
-   CREATE BUGS
+   BUGS
 ================================================== */
 
 function createBugs() {
 
-  bugs = [];
+  bugs =
+    [];
 
 
   for (
@@ -1896,25 +1934,25 @@ function createBugs() {
 
     for (
       let col = 0;
-      col < 8;
+      col < 6;
       col++
     ) {
 
       bugs.push({
 
         x:
-          110 +
+          72 +
           col * 92,
 
         y:
-          82 +
-          row * 58,
+          50 +
+          row * 42,
 
         width:
-          46,
+          38,
 
         height:
-          28,
+          23,
 
         direction:
           row % 2 === 0
@@ -1922,8 +1960,8 @@ function createBugs() {
             : -1,
 
         speed:
-          .55 +
-          row * .10,
+          .42 +
+          row * .07,
 
         dead:
           false
@@ -1943,14 +1981,26 @@ function createBugs() {
 
 function startGame() {
 
-  score = 0;
-  bullets = [];
-  particles = [];
-  cleared = false;
-  running = true;
-  bulletCooldown = false;
+  score =
+    0;
 
-  player.x = 446;
+  bullets =
+    [];
+
+  particles =
+    [];
+
+  cleared =
+    false;
+
+  running =
+    true;
+
+  bulletCooldown =
+    false;
+
+  player.x =
+    292;
 
   scoreElement.textContent =
     "SCORE 0000";
@@ -1974,14 +2024,17 @@ window.addEventListener(
 
 
     const key =
-      event.key.toLowerCase();
+      event.key
+        .toLowerCase();
 
 
-    keys[key] = true;
+    keys[key] =
+      true;
 
 
     if (
-      event.code === "Space"
+      event.code ===
+      "Space"
     ) {
 
       event.preventDefault();
@@ -2021,8 +2074,10 @@ window.addEventListener(
   event => {
 
     keys[
-      event.key.toLowerCase()
-    ] = false;
+      event.key
+        .toLowerCase()
+    ] =
+      false;
 
   }
 );
@@ -2043,7 +2098,8 @@ function shoot() {
   }
 
 
-  bulletCooldown = true;
+  bulletCooldown =
+    true;
 
 
   bullets.push({
@@ -2054,16 +2110,16 @@ function shoot() {
       2,
 
     y:
-      player.y - 20,
+      player.y - 16,
 
     width:
       4,
 
     height:
-      18,
+      14,
 
     speed:
-      9,
+      7.5,
 
     dead:
       false
@@ -2074,7 +2130,8 @@ function shoot() {
   setTimeout(
     () => {
 
-      bulletCooldown = false;
+      bulletCooldown =
+        false;
 
     },
     170
@@ -2094,7 +2151,7 @@ function createExplosion(
 
   for (
     let index = 0;
-    index < 12;
+    index < 6;
     index++
   ) {
 
@@ -2105,9 +2162,9 @@ function createExplosion(
 
 
     const speed =
-      1 +
+      .8 +
       Math.random() *
-      2.8;
+      1.8;
 
 
     particles.push({
@@ -2124,14 +2181,14 @@ function createExplosion(
         speed,
 
       life:
-        28 +
+        18 +
         Math.random() *
-        18,
+        12,
 
       size:
         2 +
         Math.random() *
-        3
+        2
 
     });
 
@@ -2179,76 +2236,78 @@ function update() {
     );
 
 
-  bullets.forEach(
-    bullet => {
+  for (
+    const bullet
+    of bullets
+  ) {
 
-      bullet.y -=
-        bullet.speed;
+    bullet.y -=
+      bullet.speed;
 
-    }
-  );
+  }
 
 
   bullets =
     bullets.filter(
       bullet =>
-        bullet.y > -40 &&
+        bullet.y > -30 &&
         !bullet.dead
     );
 
 
-  bugs.forEach(
-    bug => {
+  for (
+    const bug
+    of bugs
+  ) {
 
-      bug.x +=
-        bug.direction *
-        bug.speed;
-
-
-      if (
-        bug.x <= 15
-      ) {
-
-        bug.direction = 1;
-
-      }
+    bug.x +=
+      bug.direction *
+      bug.speed;
 
 
-      if (
-        bug.x +
-        bug.width >=
-        canvas.width -
-        15
-      ) {
+    if (
+      bug.x <= 10
+    ) {
 
-        bug.direction = -1;
-
-      }
+      bug.direction =
+        1;
 
     }
-  );
+
+
+    if (
+      bug.x +
+      bug.width >=
+      canvas.width -
+      10
+    ) {
+
+      bug.direction =
+        -1;
+
+    }
+
+  }
 
 
   collisionCheck();
 
 
-  particles.forEach(
-    particle => {
+  for (
+    const particle
+    of particles
+  ) {
 
-      particle.x +=
-        particle.vx;
+    particle.x +=
+      particle.vx;
 
-      particle.y +=
-        particle.vy;
+    particle.y +=
+      particle.vy;
 
-      particle.vy +=
-        .03;
+    particle.life -=
+      1;
 
-      particle.life -=
-        1;
-
-    }
-  );
+  }
 
 
   particles =
@@ -2263,8 +2322,11 @@ function update() {
     !cleared
   ) {
 
-    cleared = true;
-    running = false;
+    cleared =
+      true;
+
+    running =
+      false;
 
     gameMessage.textContent =
       "DEBUG COMPLETE // SY-SUBRC = 0";
@@ -2280,71 +2342,79 @@ function update() {
 
 function collisionCheck() {
 
-  bullets.forEach(
-    bullet => {
+  for (
+    const bullet
+    of bullets
+  ) {
 
-      bugs.forEach(
-        bug => {
+    for (
+      const bug
+      of bugs
+    ) {
 
-          if (
-            bug.dead ||
-            bullet.dead
-          ) {
-            return;
-          }
-
-
-          const hit =
-
-            bullet.x <
-              bug.x +
-              bug.width
-
-            &&
-
-            bullet.x +
-              bullet.width >
-              bug.x
-
-            &&
-
-            bullet.y <
-              bug.y +
-              bug.height
-
-            &&
-
-            bullet.y +
-              bullet.height >
-              bug.y;
+      if (
+        bug.dead ||
+        bullet.dead
+      ) {
+        continue;
+      }
 
 
-          if (hit) {
+      const hit =
 
-            bug.dead = true;
+        bullet.x <
+          bug.x +
+          bug.width
 
-            bullet.dead = true;
+        &&
 
-            score += 100;
+        bullet.x +
+          bullet.width >
+          bug.x
+
+        &&
+
+        bullet.y <
+          bug.y +
+          bug.height
+
+        &&
+
+        bullet.y +
+          bullet.height >
+          bug.y;
 
 
-            createExplosion(
+      if (hit) {
 
-              bug.x +
-              bug.width / 2,
+        bug.dead =
+          true;
 
-              bug.y +
-              bug.height / 2
+        bullet.dead =
+          true;
 
-            );
+        score +=
+          100;
 
-          }
 
-        }
-      );
+        createExplosion(
+
+          bug.x +
+          bug.width / 2,
+
+          bug.y +
+          bug.height / 2
+
+        );
+
+
+        break;
+
+      }
 
     }
-  );
+
+  }
 
 
   bugs =
@@ -2375,80 +2445,23 @@ function collisionCheck() {
 
 
 /* ==================================================
-   DRAW BACKGROUND
+   CLEAR CANVAS
 ================================================== */
 
-function drawBackground() {
+function clearCanvas() {
 
-  ctx.fillStyle =
-    "#000814";
-
-
-  ctx.fillRect(
+  ctx.clearRect(
     0,
     0,
     canvas.width,
     canvas.height
   );
 
-
-  ctx.strokeStyle =
-    "rgba(34,211,238,.07)";
-
-
-  ctx.lineWidth = 1;
-
-
-  for (
-    let x = 0;
-    x <= canvas.width;
-    x += 48
-  ) {
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      x,
-      0
-    );
-
-    ctx.lineTo(
-      x,
-      canvas.height
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  for (
-    let y = 0;
-    y <= canvas.height;
-    y += 48
-  ) {
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      0,
-      y
-    );
-
-    ctx.lineTo(
-      canvas.width,
-      y
-    );
-
-    ctx.stroke();
-
-  }
-
 }
 
 
 /* ==================================================
-   DRAW HUD
+   HUD
 ================================================== */
 
 function drawHUD() {
@@ -2456,33 +2469,30 @@ function drawHUD() {
   ctx.fillStyle =
     "#67e8f9";
 
-
   ctx.font =
-    "12px Consolas";
-
+    "10px Consolas";
 
   ctx.fillText(
     "RUNTIME: ACTIVE",
-    20,
-    27
+    14,
+    19
   );
 
 
   ctx.fillStyle =
     "#64748b";
 
-
   ctx.fillText(
     "TARGET: REMOVE ALL BUGS",
-    20,
-    48
+    14,
+    35
   );
 
 }
 
 
 /* ==================================================
-   DRAW BUG
+   BUG
 ================================================== */
 
 function drawBug(
@@ -2518,20 +2528,20 @@ function drawBug(
 
 
   ctx.font =
-    "12px Consolas";
+    "10px Consolas";
 
 
   ctx.fillText(
     "BUG",
-    bug.x + 10,
-    bug.y + 18
+    bug.x + 8,
+    bug.y + 15
   );
 
 }
 
 
 /* ==================================================
-   DRAW PLAYER
+   PLAYER
 ================================================== */
 
 function drawPlayer() {
@@ -2555,12 +2565,12 @@ function drawPlayer() {
   ctx.fillRect(
     player.x +
       player.width / 2 -
-      7,
+      6,
 
-    player.y - 12,
+    player.y - 10,
 
-    14,
-    12
+    12,
+    10
   );
 
 
@@ -2569,20 +2579,20 @@ function drawPlayer() {
 
 
   ctx.font =
-    "bold 12px Consolas";
+    "bold 10px Consolas";
 
 
   ctx.fillText(
     "DEV",
-    player.x + 21,
-    player.y + 17
+    player.x + 17,
+    player.y + 14
   );
 
 }
 
 
 /* ==================================================
-   DRAW BULLETS
+   BULLETS
 ================================================== */
 
 function drawBullets() {
@@ -2591,54 +2601,56 @@ function drawBullets() {
     "#4ade80";
 
 
-  bullets.forEach(
-    bullet => {
+  for (
+    const bullet
+    of bullets
+  ) {
 
-      ctx.fillRect(
-        bullet.x,
-        bullet.y,
-        bullet.width,
-        bullet.height
-      );
+    ctx.fillRect(
+      bullet.x,
+      bullet.y,
+      bullet.width,
+      bullet.height
+    );
 
-    }
-  );
+  }
 
 }
 
 
 /* ==================================================
-   DRAW PARTICLES
+   PARTICLES
 ================================================== */
 
 function drawParticles() {
 
-  particles.forEach(
-    particle => {
+  for (
+    const particle
+    of particles
+  ) {
 
-      const alpha =
-        Math.max(
-          0,
-          particle.life /
-          45
-        );
-
-
-      ctx.fillStyle =
-        "rgba(244,114,182," +
-        alpha +
-        ")";
-
-
-      ctx.fillRect(
-        particle.x,
-        particle.y,
-        particle.size,
-        particle.size
+    const alpha =
+      Math.max(
+        0,
+        particle.life /
+        30
       );
 
-    }
-  );
+
+    ctx.fillStyle =
+      "rgba(244,114,182," +
+      alpha +
+      ")";
+
+
+    ctx.fillRect(
+      particle.x,
+      particle.y,
+      particle.size,
+      particle.size
+    );
+
+  }
 
 }
 
@@ -2650,14 +2662,14 @@ function drawParticles() {
 function drawClear() {
 
   ctx.fillStyle =
-    "rgba(2,6,23,.91)";
+    "rgba(2,6,23,.92)";
 
 
   ctx.fillRect(
-    170,
-    160,
-    620,
-    235
+    110,
+    88,
+    420,
+    190
   );
 
 
@@ -2665,14 +2677,15 @@ function drawClear() {
     "#4ade80";
 
 
-  ctx.lineWidth = 2;
+  ctx.lineWidth =
+    2;
 
 
   ctx.strokeRect(
-    170,
-    160,
-    620,
-    235
+    110,
+    88,
+    420,
+    190
   );
 
 
@@ -2685,13 +2698,13 @@ function drawClear() {
 
 
   ctx.font =
-    "bold 42px Consolas";
+    "bold 28px Consolas";
 
 
   ctx.fillText(
     "DEBUG COMPLETE",
     canvas.width / 2,
-    230
+    143
   );
 
 
@@ -2700,13 +2713,13 @@ function drawClear() {
 
 
   ctx.font =
-    "18px Consolas";
+    "14px Consolas";
 
 
   ctx.fillText(
     "ALL BUGS REMOVED",
     canvas.width / 2,
-    273
+    180
   );
 
 
@@ -2715,13 +2728,13 @@ function drawClear() {
 
 
   ctx.font =
-    "15px Consolas";
+    "12px Consolas";
 
 
   ctx.fillText(
     "SY-SUBRC = 0",
     canvas.width / 2,
-    315
+    212
   );
 
 
@@ -2730,13 +2743,13 @@ function drawClear() {
 
 
   ctx.font =
-    "13px Consolas";
+    "10px Consolas";
 
 
   ctx.fillText(
     "PRESS R TO RESTART",
     canvas.width / 2,
-    357
+    244
   );
 
 
@@ -2752,14 +2765,21 @@ function drawClear() {
 
 function draw() {
 
-  drawBackground();
+  clearCanvas();
 
   drawHUD();
 
 
-  bugs.forEach(
-    drawBug
-  );
+  for (
+    const bug
+    of bugs
+  ) {
+
+    drawBug(
+      bug
+    );
+
+  }
 
 
   drawBullets();
@@ -2782,10 +2802,13 @@ function draw() {
    LOOP
 ================================================== */
 
-function gameLoop() {
+function gameLoop(
+  timestamp
+) {
 
   if (
-    modalOpen
+    modalOpen &&
+    !document.hidden
   ) {
 
     const loaded =
@@ -2796,17 +2819,28 @@ function gameLoop() {
         );
 
 
+    /*
+      最大60FPS。
+      iframe先で負荷が高い場合にフレーム暴走を防ぐ。
+    */
+
     if (
-      running &&
-      loaded
+      loaded &&
+      timestamp -
+      lastFrameTime >=
+      16
     ) {
 
-      update();
+      lastFrameTime =
+        timestamp;
 
-    }
 
+      if (running) {
 
-    if (loaded) {
+        update();
+
+      }
+
 
       draw();
 
@@ -2820,6 +2854,36 @@ function gameLoop() {
   );
 
 }
+
+
+/* ==================================================
+   PAGE VISIBILITY
+================================================== */
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if (
+      document.hidden
+    ) {
+
+      keys.arrowleft =
+        false;
+
+      keys.arrowright =
+        false;
+
+      keys.a =
+        false;
+
+      keys.d =
+        false;
+
+    }
+
+  }
+);
 
 
 /* ==================================================
@@ -2864,6 +2928,7 @@ requestAnimationFrame(
 );
 
 </script>
+
 
 </body>
 </html>
