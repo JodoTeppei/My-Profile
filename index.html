@@ -7,7 +7,7 @@
   name="viewport"
   content="width=device-width, initial-scale=1.0">
 
-<title>TEPPEI JOUDO | ABAP INVADERS</title>
+<title>TEPPEI JOUDO | ABAP GAMES</title>
 
 <style>
 
@@ -91,11 +91,6 @@ button {
     transform .3s ease;
 }
 
-/*
-  blur()は使わない。
-  ゲーム開始時は暗くして少しだけ拡大する。
-*/
-
 .app.game-open .profile {
   filter: brightness(.38);
   transform: scale(1.01);
@@ -105,10 +100,6 @@ button {
 /* ==================================================
    PROFILE ANIMATION PAUSE
 ================================================== */
-
-/*
-  ゲーム中は背面アニメーションをすべて停止する。
-*/
 
 .app.game-open .signal,
 .app.game-open .orb,
@@ -186,7 +177,6 @@ button {
 
     opacity: .36;
   }
-
 }
 
 .signal:nth-child(2n) {
@@ -308,7 +298,6 @@ button {
       translateY(10px)
       scale(1.02);
   }
-
 }
 
 .orb::before {
@@ -348,19 +337,15 @@ button {
 }
 
 @keyframes spin {
-
   to {
     transform: rotate(360deg);
   }
-
 }
 
 @keyframes spinReverse {
-
   to {
     transform: rotate(-360deg);
   }
-
 }
 
 
@@ -472,7 +457,7 @@ button {
 
 
 /* ==================================================
-   PLAY BUTTON
+   PLAY BUTTONS
 ================================================== */
 
 .launch-area {
@@ -482,6 +467,13 @@ button {
       5vh,
       46px
     );
+}
+
+.game-launch-buttons {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 12px;
 }
 
 .primary-button {
@@ -568,6 +560,34 @@ button {
   outline-offset: 4px;
 }
 
+.runner-button {
+  border-color: #4ade80;
+
+  background:
+    linear-gradient(
+      135deg,
+      #047857,
+      #0891b2
+    );
+
+  box-shadow:
+    0 0 14px
+    rgba(74, 222, 128, .22);
+}
+
+.runner-button:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #059669,
+      #06b6d4
+    );
+
+  box-shadow:
+    0 0 24px
+    rgba(74, 222, 128, .42);
+}
+
 .launch-note {
   margin-top: 9px;
 
@@ -616,7 +636,6 @@ button {
     );
 
   font-weight: 700;
-
   letter-spacing: 3px;
 }
 
@@ -639,7 +658,6 @@ button {
   50% {
     opacity: .2;
   }
-
 }
 
 
@@ -857,6 +875,8 @@ button {
     );
 
   font-weight: 900;
+
+  margin-left: auto;
 }
 
 .close-button {
@@ -1145,7 +1165,6 @@ canvas {
 }
 
 @keyframes loadingMove {
-
   from {
     transform:
       translateX(-30%);
@@ -1155,7 +1174,6 @@ canvas {
     transform:
       translateX(205%);
   }
-
 }
 
 
@@ -1222,6 +1240,8 @@ canvas {
     );
 
   letter-spacing: 1px;
+
+  text-align: right;
 }
 
 
@@ -1246,7 +1266,6 @@ canvas {
   .orb {
     top: 14%;
   }
-
 }
 
 
@@ -1277,13 +1296,30 @@ canvas {
   .game-window {
     width: 100%;
     height: 98%;
+
     border-radius: 8px;
   }
 
   .controls {
-    max-width: 65%;
+    max-width: 70%;
   }
 
+  .game-message {
+    max-width: 28%;
+  }
+}
+
+@media (max-width: 540px) {
+
+  .game-launch-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .game-launch-buttons
+  .primary-button {
+    width: min(100%, 260px);
+  }
 }
 
 </style>
@@ -1291,7 +1327,6 @@ canvas {
 
 
 <body>
-
 
 <div
   class="app"
@@ -1305,7 +1340,6 @@ canvas {
   <main
     class="profile"
     id="profile">
-
 
     <div class="signals">
 
@@ -1357,9 +1391,9 @@ canvas {
       <i
         class="signal"
         style="
-        left:50%;
-        height:83%;
-        width:5px;">
+          left:50%;
+          height:83%;
+          width:5px;">
       </i>
 
       <i
@@ -1409,13 +1443,11 @@ canvas {
 
     </div>
 
-
     <div class="profile-grid"></div>
 
     <div class="orb"></div>
 
     <div class="profile-overlay"></div>
-
 
     <div class="back-type">
       SAP
@@ -1423,13 +1455,11 @@ canvas {
       AI
     </div>
 
-
     <section class="profile-content">
 
       <div class="eyebrow">
         JOU_DO // DIGITAL DEVELOPER
       </div>
-
 
       <div class="name">
         TEPPEI
@@ -1439,32 +1469,41 @@ canvas {
         </span>
       </div>
 
-
       <div class="launch-area">
 
-        <button
-          class="primary-button"
-          id="playGame"
-          type="button">
+        <div class="game-launch-buttons">
 
-          ▶ PLAY ABAP INVADERS
+          <button
+            class="primary-button"
+            id="playInvaders"
+            type="button">
 
-        </button>
+            ▶ PLAY ABAP INVADERS
 
+          </button>
+
+          <button
+            class="primary-button runner-button"
+            id="playRunner"
+            type="button">
+
+            ▶ PLAY ABAP RUNNER
+
+          </button>
+
+        </div>
 
         <div class="launch-note">
-          INTERACTIVE DEBUG SESSION
+          SELECT DEBUG SESSION
         </div>
 
       </div>
 
     </section>
 
-
     <div class="system-status">
       SYSTEM ONLINE
     </div>
-
 
   </main>
 
@@ -1480,12 +1519,9 @@ canvas {
     aria-modal="true"
     aria-labelledby="gameTitle">
 
-
     <div class="game-window">
 
-
       <header class="game-header">
-
 
         <div class="game-header-left">
 
@@ -1497,13 +1533,11 @@ canvas {
 
           </div>
 
-
           <div class="runtime-status">
             ● DEBUG SESSION ACTIVE
           </div>
 
         </div>
-
 
         <div
           class="score"
@@ -1512,7 +1546,6 @@ canvas {
           SCORE 0000
 
         </div>
-
 
         <button
           class="close-button"
@@ -1524,12 +1557,10 @@ canvas {
 
         </button>
 
-
       </header>
 
 
       <div class="game-body">
-
 
         <div class="game-shell">
 
@@ -1538,7 +1569,7 @@ canvas {
             width="640"
             height="360"
             tabindex="0"
-            aria-label="ABAP Invaders game canvas">
+            aria-label="ABAP game canvas">
           </canvas>
 
         </div>
@@ -1548,37 +1579,31 @@ canvas {
           class="loading-overlay"
           id="loadingOverlay">
 
-
           <div class="loader-panel">
-
 
             <div class="loader-title">
               INITIALIZING DEBUG ENVIRONMENT
             </div>
-
 
             <div
               class="loader-log"
               id="loaderLog">
             </div>
 
-
             <div class="loader-bar"></div>
-
 
           </div>
 
-
         </div>
-
 
       </div>
 
 
       <footer class="game-footer">
 
-
-        <div class="controls">
+        <div
+          class="controls"
+          id="gameControls">
 
           MOVE:
           <strong>
@@ -1601,7 +1626,6 @@ canvas {
 
         </div>
 
-
         <div
           class="game-message"
           id="gameMessage">
@@ -1610,15 +1634,11 @@ canvas {
 
         </div>
 
-
       </footer>
-
 
     </div>
 
-
   </section>
-
 
 </div>
 
@@ -1634,9 +1654,14 @@ const app =
     "app"
   );
 
-const playGame =
+const playInvaders =
   document.getElementById(
-    "playGame"
+    "playInvaders"
+  );
+
+const playRunner =
+  document.getElementById(
+    "playRunner"
   );
 
 const gameModal =
@@ -1664,6 +1689,16 @@ const gameMessage =
     "gameMessage"
   );
 
+const gameTitle =
+  document.getElementById(
+    "gameTitle"
+  );
+
+const gameControls =
+  document.getElementById(
+    "gameControls"
+  );
+
 const canvas =
   document.getElementById(
     "game"
@@ -1684,10 +1719,13 @@ const scoreElement =
 
 
 /* ==================================================
-   STATE
+   SHARED STATE
 ================================================== */
 
 const keys = {};
+
+let gameMode =
+  "invaders";
 
 let running =
   false;
@@ -1701,25 +1739,25 @@ let cleared =
 let score =
   0;
 
-let bullets =
-  [];
-
-let bugs =
-  [];
-
 let particles =
   [];
-
-let bulletCooldown =
-  false;
 
 let lastFrameTime =
   0;
 
 
 /* ==================================================
-   PLAYER
+   INVADERS STATE
 ================================================== */
+
+let bullets =
+  [];
+
+let bugs =
+  [];
+
+let bulletCooldown =
+  false;
 
 const player = {
 
@@ -1734,6 +1772,169 @@ const player = {
   speed: 4.6
 
 };
+
+
+/* ==================================================
+   RUNNER STATE
+================================================== */
+
+let runnerCameraX =
+  0;
+
+let runnerGoalReached =
+  false;
+
+let runnerEnemies =
+  [];
+
+let runnerCoins =
+  [];
+
+const runnerWorld = {
+
+  width: 4200,
+
+  groundY: 306,
+
+  gravity: .62
+
+};
+
+const runnerPlayer = {
+
+  x: 80,
+
+  y: 240,
+
+  width: 28,
+
+  height: 42,
+
+  vx: 0,
+
+  vy: 0,
+
+  speed: .62,
+
+  maxSpeed: 4.7,
+
+  jumpPower: 11.2,
+
+  onGround: false,
+
+  direction: 1
+
+};
+
+const runnerPlatforms = [
+
+  {
+    x: 0,
+    y: 306,
+    width: 620,
+    height: 54
+  },
+
+  {
+    x: 690,
+    y: 306,
+    width: 490,
+    height: 54
+  },
+
+  {
+    x: 1250,
+    y: 306,
+    width: 640,
+    height: 54
+  },
+
+  {
+    x: 1980,
+    y: 306,
+    width: 480,
+    height: 54
+  },
+
+  {
+    x: 2540,
+    y: 306,
+    width: 720,
+    height: 54
+  },
+
+  {
+    x: 3340,
+    y: 306,
+    width: 860,
+    height: 54
+  },
+
+
+  {
+    x: 360,
+    y: 245,
+    width: 130,
+    height: 18
+  },
+
+  {
+    x: 790,
+    y: 230,
+    width: 150,
+    height: 18
+  },
+
+  {
+    x: 1010,
+    y: 178,
+    width: 130,
+    height: 18
+  },
+
+  {
+    x: 1390,
+    y: 238,
+    width: 150,
+    height: 18
+  },
+
+  {
+    x: 1650,
+    y: 185,
+    width: 145,
+    height: 18
+  },
+
+  {
+    x: 2120,
+    y: 225,
+    width: 160,
+    height: 18
+  },
+
+  {
+    x: 2690,
+    y: 238,
+    width: 150,
+    height: 18
+  },
+
+  {
+    x: 2960,
+    y: 180,
+    width: 150,
+    height: 18
+  },
+
+  {
+    x: 3540,
+    y: 230,
+    width: 175,
+    height: 18
+  }
+
+];
 
 
 /* ==================================================
@@ -1754,7 +1955,6 @@ function wait(
 
     }
   );
-
 }
 
 
@@ -1762,54 +1962,85 @@ function wait(
    OPEN GAME
 ================================================== */
 
-async function openGame() {
+async function openGame(
+  selectedMode
+) {
 
   if (modalOpen) {
     return;
   }
 
+  gameMode =
+    selectedMode;
 
   modalOpen =
     true;
-
 
   app.classList.add(
     "game-open"
   );
 
-
   gameModal.classList.add(
     "is-open"
   );
-
 
   loadingOverlay.classList.remove(
     "is-hidden"
   );
 
-
   loaderLog.innerHTML =
     "";
 
+  if (
+    gameMode ===
+    "runner"
+  ) {
 
-  gameMessage.textContent =
-    "INITIALIZING...";
+    gameTitle.textContent =
+      "ABAP RUNNER";
 
+    gameControls.innerHTML =
+      "MOVE: <strong>← → / A D</strong>" +
+      "&nbsp;&nbsp;" +
+      "JUMP: <strong>SPACE / W / ↑</strong>" +
+      "&nbsp;&nbsp;" +
+      "RESTART: <strong>R</strong>";
 
-  const messages = [
+    gameMessage.textContent =
+      "INITIALIZING WORLD...";
 
-    "INITIALIZING ABAP RUNTIME...",
+  } else {
 
-    "LOADING BUG TABLE...",
+    gameTitle.textContent =
+      "ABAP INVADERS";
 
-    "ATTACHING DEBUGGER...",
+    gameControls.innerHTML =
+      "MOVE: <strong>← → / A D</strong>" +
+      "&nbsp;&nbsp;" +
+      "SHOOT: <strong>SPACE</strong>" +
+      "&nbsp;&nbsp;" +
+      "RESTART: <strong>R</strong>";
 
-    "ACTIVATING BREAKPOINTS...",
+    gameMessage.textContent =
+      "INITIALIZING...";
+  }
 
-    "DEBUG SESSION READY"
-
-  ];
-
+  const messages =
+    gameMode === "runner"
+      ? [
+          "LOADING DEVELOPMENT LANDSCAPE...",
+          "COMPILING PLATFORM DATA...",
+          "SPAWNING BUG PROCESSES...",
+          "SETTING BREAKPOINT FLAG...",
+          "RUN SESSION READY"
+        ]
+      : [
+          "INITIALIZING ABAP RUNTIME...",
+          "LOADING BUG TABLE...",
+          "ATTACHING DEBUGGER...",
+          "ACTIVATING BREAKPOINTS...",
+          "DEBUG SESSION READY"
+        ];
 
   for (
     const message
@@ -1820,53 +2051,54 @@ async function openGame() {
       return;
     }
 
-
     const line =
       document.createElement(
         "div"
       );
 
-
     line.textContent =
       message;
-
 
     loaderLog.appendChild(
       line
     );
 
-
     await wait(
-      150
+      120
     );
-
   }
 
-
   await wait(
-    150
+    120
   );
-
 
   if (!modalOpen) {
     return;
   }
 
+  if (
+    gameMode ===
+    "runner"
+  ) {
 
-  startGame();
+    startRunner();
 
+    gameMessage.textContent =
+      "TARGET: REACH PRODUCTION";
+
+  } else {
+
+    startInvaders();
+
+    gameMessage.textContent =
+      "TARGET: REMOVE ALL BUGS";
+  }
 
   loadingOverlay.classList.add(
     "is-hidden"
   );
 
-
-  gameMessage.textContent =
-    "TARGET: REMOVE ALL BUGS";
-
-
   canvas.focus();
-
 }
 
 
@@ -1882,11 +2114,47 @@ function hideGame() {
   running =
     false;
 
+  resetKeys();
+
+  app.classList.remove(
+    "game-open"
+  );
+
+  gameModal.classList.remove(
+    "is-open"
+  );
+
+  loadingOverlay.classList.remove(
+    "is-hidden"
+  );
+
+  if (
+    gameMode ===
+    "runner"
+  ) {
+
+    playRunner.focus();
+
+  } else {
+
+    playInvaders.focus();
+  }
+}
+
+
+/* ==================================================
+   KEYS
+================================================== */
+
+function resetKeys() {
 
   keys.arrowleft =
     false;
 
   keys.arrowright =
+    false;
+
+  keys.arrowup =
     false;
 
   keys.a =
@@ -1895,36 +2163,19 @@ function hideGame() {
   keys.d =
     false;
 
-
-  app.classList.remove(
-    "game-open"
-  );
-
-
-  gameModal.classList.remove(
-    "is-open"
-  );
-
-
-  loadingOverlay.classList.remove(
-    "is-hidden"
-  );
-
-
-  playGame.focus();
-
+  keys.w =
+    false;
 }
 
 
 /* ==================================================
-   BUGS
+   INVADERS
 ================================================== */
 
 function createBugs() {
 
   bugs =
     [];
-
 
   for (
     let row = 0;
@@ -1967,19 +2218,12 @@ function createBugs() {
           false
 
       });
-
     }
-
   }
-
 }
 
 
-/* ==================================================
-   START GAME
-================================================== */
-
-function startGame() {
+function startInvaders() {
 
   score =
     0;
@@ -2006,86 +2250,8 @@ function startGame() {
     "SCORE 0000";
 
   createBugs();
-
 }
 
-
-/* ==================================================
-   INPUT
-================================================== */
-
-window.addEventListener(
-  "keydown",
-  event => {
-
-    if (!modalOpen) {
-      return;
-    }
-
-
-    const key =
-      event.key
-        .toLowerCase();
-
-
-    keys[key] =
-      true;
-
-
-    if (
-      event.code ===
-      "Space"
-    ) {
-
-      event.preventDefault();
-
-      shoot();
-
-    }
-
-
-    if (
-      key === "r" &&
-      cleared
-    ) {
-
-      startGame();
-
-      gameMessage.textContent =
-        "TARGET: REMOVE ALL BUGS";
-
-    }
-
-
-    if (
-      key === "escape"
-    ) {
-
-      hideGame();
-
-    }
-
-  }
-);
-
-
-window.addEventListener(
-  "keyup",
-  event => {
-
-    keys[
-      event.key
-        .toLowerCase()
-    ] =
-      false;
-
-  }
-);
-
-
-/* ==================================================
-   SHOOT
-================================================== */
 
 function shoot() {
 
@@ -2097,10 +2263,8 @@ function shoot() {
     return;
   }
 
-
   bulletCooldown =
     true;
-
 
   bullets.push({
 
@@ -2126,7 +2290,6 @@ function shoot() {
 
   });
 
-
   setTimeout(
     () => {
 
@@ -2136,72 +2299,10 @@ function shoot() {
     },
     170
   );
-
 }
 
 
-/* ==================================================
-   PARTICLES
-================================================== */
-
-function createExplosion(
-  x,
-  y
-) {
-
-  for (
-    let index = 0;
-    index < 6;
-    index++
-  ) {
-
-    const angle =
-      Math.random() *
-      Math.PI *
-      2;
-
-
-    const speed =
-      .8 +
-      Math.random() *
-      1.8;
-
-
-    particles.push({
-
-      x,
-      y,
-
-      vx:
-        Math.cos(angle) *
-        speed,
-
-      vy:
-        Math.sin(angle) *
-        speed,
-
-      life:
-        18 +
-        Math.random() *
-        12,
-
-      size:
-        2 +
-        Math.random() *
-        2
-
-    });
-
-  }
-
-}
-
-
-/* ==================================================
-   UPDATE
-================================================== */
-
-function update() {
+function updateInvaders() {
 
   if (
     keys.arrowleft ||
@@ -2210,9 +2311,7 @@ function update() {
 
     player.x -=
       player.speed;
-
   }
-
 
   if (
     keys.arrowright ||
@@ -2221,9 +2320,7 @@ function update() {
 
     player.x +=
       player.speed;
-
   }
-
 
   player.x =
     Math.max(
@@ -2235,7 +2332,6 @@ function update() {
       )
     );
 
-
   for (
     const bullet
     of bullets
@@ -2243,9 +2339,7 @@ function update() {
 
     bullet.y -=
       bullet.speed;
-
   }
-
 
   bullets =
     bullets.filter(
@@ -2253,7 +2347,6 @@ function update() {
         bullet.y > -30 &&
         !bullet.dead
     );
-
 
   for (
     const bug
@@ -2264,16 +2357,13 @@ function update() {
       bug.direction *
       bug.speed;
 
-
     if (
       bug.x <= 10
     ) {
 
       bug.direction =
         1;
-
     }
-
 
     if (
       bug.x +
@@ -2284,38 +2374,12 @@ function update() {
 
       bug.direction =
         -1;
-
     }
-
   }
 
+  invadersCollisionCheck();
 
-  collisionCheck();
-
-
-  for (
-    const particle
-    of particles
-  ) {
-
-    particle.x +=
-      particle.vx;
-
-    particle.y +=
-      particle.vy;
-
-    particle.life -=
-      1;
-
-  }
-
-
-  particles =
-    particles.filter(
-      particle =>
-        particle.life > 0
-    );
-
+  updateParticles();
 
   if (
     bugs.length === 0 &&
@@ -2330,17 +2394,11 @@ function update() {
 
     gameMessage.textContent =
       "DEBUG COMPLETE // SY-SUBRC = 0";
-
   }
-
 }
 
 
-/* ==================================================
-   COLLISION
-================================================== */
-
-function collisionCheck() {
+function invadersCollisionCheck() {
 
   for (
     const bullet
@@ -2358,7 +2416,6 @@ function collisionCheck() {
       ) {
         continue;
       }
-
 
       const hit =
 
@@ -2384,7 +2441,6 @@ function collisionCheck() {
           bullet.height >
           bug.y;
 
-
       if (hit) {
 
         bug.dead =
@@ -2396,7 +2452,6 @@ function collisionCheck() {
         score +=
           100;
 
-
         createExplosion(
 
           bug.x +
@@ -2407,15 +2462,10 @@ function collisionCheck() {
 
         );
 
-
         break;
-
       }
-
     }
-
   }
-
 
   bugs =
     bugs.filter(
@@ -2423,13 +2473,596 @@ function collisionCheck() {
         !bug.dead
     );
 
-
   bullets =
     bullets.filter(
       bullet =>
         !bullet.dead
     );
 
+  updateScore();
+}
+
+
+/* ==================================================
+   RUNNER START
+================================================== */
+
+function startRunner() {
+
+  score =
+    0;
+
+  particles =
+    [];
+
+  cleared =
+    false;
+
+  running =
+    true;
+
+  runnerGoalReached =
+    false;
+
+  runnerCameraX =
+    0;
+
+  runnerPlayer.x =
+    80;
+
+  runnerPlayer.y =
+    240;
+
+  runnerPlayer.vx =
+    0;
+
+  runnerPlayer.vy =
+    0;
+
+  runnerPlayer.onGround =
+    false;
+
+  runnerPlayer.direction =
+    1;
+
+  runnerEnemies = [
+
+    createRunnerEnemy(
+      520,
+      278
+    ),
+
+    createRunnerEnemy(
+      870,
+      202
+    ),
+
+    createRunnerEnemy(
+      1080,
+      150
+    ),
+
+    createRunnerEnemy(
+      1460,
+      210
+    ),
+
+    createRunnerEnemy(
+      1770,
+      157
+    ),
+
+    createRunnerEnemy(
+      2200,
+      197
+    ),
+
+    createRunnerEnemy(
+      2810,
+      210
+    ),
+
+    createRunnerEnemy(
+      3060,
+      152
+    ),
+
+    createRunnerEnemy(
+      3650,
+      202
+    ),
+
+    createRunnerEnemy(
+      3910,
+      278
+    )
+
+  ];
+
+  runnerCoins = [
+
+    createRunnerCoin(
+      410,
+      210
+    ),
+
+    createRunnerCoin(
+      835,
+      195
+    ),
+
+    createRunnerCoin(
+      1060,
+      140
+    ),
+
+    createRunnerCoin(
+      1445,
+      202
+    ),
+
+    createRunnerCoin(
+      1700,
+      145
+    ),
+
+    createRunnerCoin(
+      2180,
+      188
+    ),
+
+    createRunnerCoin(
+      2740,
+      200
+    ),
+
+    createRunnerCoin(
+      3010,
+      142
+    ),
+
+    createRunnerCoin(
+      3600,
+      190
+    ),
+
+    createRunnerCoin(
+      4010,
+      250
+    )
+
+  ];
+
+  updateScore();
+}
+
+
+function createRunnerEnemy(
+  x,
+  y
+) {
+
+  return {
+
+    x,
+    y,
+
+    width: 30,
+
+    height: 28,
+
+    vx: -1,
+
+    dead: false
+
+  };
+}
+
+
+function createRunnerCoin(
+  x,
+  y
+) {
+
+  return {
+
+    x,
+    y,
+
+    width: 16,
+
+    height: 16,
+
+    collected: false
+
+  };
+}
+
+
+/* ==================================================
+   RUNNER JUMP
+================================================== */
+
+function runnerJump() {
+
+  if (
+    !modalOpen ||
+    !running ||
+    !runnerPlayer.onGround
+  ) {
+    return;
+  }
+
+  runnerPlayer.vy =
+    -runnerPlayer.jumpPower;
+
+  runnerPlayer.onGround =
+    false;
+}
+
+
+/* ==================================================
+   RUNNER UPDATE
+================================================== */
+
+function updateRunner() {
+
+  const previousY =
+    runnerPlayer.y;
+
+  if (
+    keys.arrowleft ||
+    keys.a
+  ) {
+
+    runnerPlayer.vx -=
+      runnerPlayer.speed;
+
+    runnerPlayer.direction =
+      -1;
+
+  } else if (
+    keys.arrowright ||
+    keys.d
+  ) {
+
+    runnerPlayer.vx +=
+      runnerPlayer.speed;
+
+    runnerPlayer.direction =
+      1;
+
+  } else {
+
+    runnerPlayer.vx *=
+      .78;
+  }
+
+  runnerPlayer.vx =
+    Math.max(
+      -runnerPlayer.maxSpeed,
+      Math.min(
+        runnerPlayer.maxSpeed,
+        runnerPlayer.vx
+      )
+    );
+
+  runnerPlayer.vy +=
+    runnerWorld.gravity;
+
+  runnerPlayer.vy =
+    Math.min(
+      runnerPlayer.vy,
+      13
+    );
+
+  runnerPlayer.x +=
+    runnerPlayer.vx;
+
+  runnerPlayer.y +=
+    runnerPlayer.vy;
+
+  runnerPlayer.x =
+    Math.max(
+      0,
+      Math.min(
+        runnerWorld.width -
+        runnerPlayer.width,
+        runnerPlayer.x
+      )
+    );
+
+  runnerPlayer.onGround =
+    false;
+
+  for (
+    const platform
+    of runnerPlatforms
+  ) {
+
+    const horizontalHit =
+      runnerPlayer.x +
+      runnerPlayer.width >
+        platform.x
+      &&
+      runnerPlayer.x <
+        platform.x +
+        platform.width;
+
+    const previousBottom =
+      previousY +
+      runnerPlayer.height;
+
+    const currentBottom =
+      runnerPlayer.y +
+      runnerPlayer.height;
+
+    if (
+      horizontalHit &&
+      runnerPlayer.vy >= 0 &&
+      previousBottom <=
+        platform.y + 8 &&
+      currentBottom >=
+        platform.y
+    ) {
+
+      runnerPlayer.y =
+        platform.y -
+        runnerPlayer.height;
+
+      runnerPlayer.vy =
+        0;
+
+      runnerPlayer.onGround =
+        true;
+    }
+  }
+
+  updateRunnerEnemies();
+
+  updateRunnerCoins();
+
+  updateParticles();
+
+  if (
+    runnerPlayer.y >
+    canvas.height + 90
+  ) {
+
+    respawnRunner(
+      "RUNTIME ERROR // -100"
+    );
+  }
+
+  const desiredCameraX =
+    runnerPlayer.x -
+    canvas.width *
+    .34;
+
+  runnerCameraX +=
+    (
+      desiredCameraX -
+      runnerCameraX
+    ) *
+    .1;
+
+  runnerCameraX =
+    Math.max(
+      0,
+      Math.min(
+        runnerWorld.width -
+        canvas.width,
+        runnerCameraX
+      )
+    );
+
+  if (
+    runnerPlayer.x >
+      runnerWorld.width -
+      150 &&
+    !runnerGoalReached
+  ) {
+
+    runnerGoalReached =
+      true;
+
+    cleared =
+      true;
+
+    running =
+      false;
+
+    score +=
+      1000;
+
+    updateScore();
+
+    gameMessage.textContent =
+      "TRANSPORT COMPLETE // PRODUCTION";
+  }
+}
+
+
+function respawnRunner(
+  message
+) {
+
+  runnerPlayer.x =
+    Math.max(
+      80,
+      runnerPlayer.x -
+      240
+    );
+
+  runnerPlayer.y =
+    190;
+
+  runnerPlayer.vx =
+    0;
+
+  runnerPlayer.vy =
+    0;
+
+  score =
+    Math.max(
+      0,
+      score - 100
+    );
+
+  updateScore();
+
+  gameMessage.textContent =
+    message;
+}
+
+
+/* ==================================================
+   RUNNER ENEMIES
+================================================== */
+
+function updateRunnerEnemies() {
+
+  for (
+    const enemy
+    of runnerEnemies
+  ) {
+
+    if (enemy.dead) {
+      continue;
+    }
+
+    enemy.x +=
+      enemy.vx;
+
+    const hit =
+      runnerPlayer.x <
+        enemy.x +
+        enemy.width
+      &&
+      runnerPlayer.x +
+        runnerPlayer.width >
+        enemy.x
+      &&
+      runnerPlayer.y <
+        enemy.y +
+        enemy.height
+      &&
+      runnerPlayer.y +
+        runnerPlayer.height >
+        enemy.y;
+
+    if (!hit) {
+      continue;
+    }
+
+    const playerBottom =
+      runnerPlayer.y +
+      runnerPlayer.height;
+
+    const stomp =
+      runnerPlayer.vy > 0 &&
+      playerBottom <
+        enemy.y +
+        enemy.height *
+        .78;
+
+    if (stomp) {
+
+      enemy.dead =
+        true;
+
+      runnerPlayer.vy =
+        -7;
+
+      score +=
+        200;
+
+      createExplosion(
+
+        enemy.x -
+        runnerCameraX +
+        enemy.width / 2,
+
+        enemy.y +
+        enemy.height / 2
+
+      );
+
+      gameMessage.textContent =
+        "BUG FIXED // +200";
+
+    } else {
+
+      respawnRunner(
+        "SHORT DUMP // -100"
+      );
+    }
+  }
+
+  runnerEnemies =
+    runnerEnemies.filter(
+      enemy =>
+        !enemy.dead
+    );
+
+  updateScore();
+}
+
+
+/* ==================================================
+   RUNNER COINS
+================================================== */
+
+function updateRunnerCoins() {
+
+  for (
+    const coin
+    of runnerCoins
+  ) {
+
+    if (coin.collected) {
+      continue;
+    }
+
+    const hit =
+      runnerPlayer.x <
+        coin.x +
+        coin.width
+      &&
+      runnerPlayer.x +
+        runnerPlayer.width >
+        coin.x
+      &&
+      runnerPlayer.y <
+        coin.y +
+        coin.height
+      &&
+      runnerPlayer.y +
+        runnerPlayer.height >
+        coin.y;
+
+    if (hit) {
+
+      coin.collected =
+        true;
+
+      score +=
+        50;
+
+      gameMessage.textContent =
+        "CODE FRAGMENT // +50";
+    }
+  }
+
+  updateScore();
+}
+
+
+/* ==================================================
+   SCORE
+================================================== */
+
+function updateScore() {
 
   scoreElement.textContent =
 
@@ -2440,8 +3073,186 @@ function collisionCheck() {
         4,
         "0"
       );
-
 }
+
+
+/* ==================================================
+   PARTICLES
+================================================== */
+
+function createExplosion(
+  x,
+  y
+) {
+
+  for (
+    let index = 0;
+    index < 6;
+    index++
+  ) {
+
+    const angle =
+      Math.random() *
+      Math.PI *
+      2;
+
+    const speed =
+      .8 +
+      Math.random() *
+      1.8;
+
+    particles.push({
+
+      x,
+      y,
+
+      vx:
+        Math.cos(angle) *
+        speed,
+
+      vy:
+        Math.sin(angle) *
+        speed,
+
+      life:
+        18 +
+        Math.random() *
+        12,
+
+      size:
+        2 +
+        Math.random() *
+        2
+
+    });
+  }
+}
+
+
+function updateParticles() {
+
+  for (
+    const particle
+    of particles
+  ) {
+
+    particle.x +=
+      particle.vx;
+
+    particle.y +=
+      particle.vy;
+
+    particle.life -=
+      1;
+  }
+
+  particles =
+    particles.filter(
+      particle =>
+        particle.life > 0
+    );
+}
+
+
+/* ==================================================
+   INPUT
+================================================== */
+
+window.addEventListener(
+  "keydown",
+  event => {
+
+    if (!modalOpen) {
+      return;
+    }
+
+    const key =
+      event.key
+        .toLowerCase();
+
+    keys[key] =
+      true;
+
+    if (
+      [
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "Space"
+      ].includes(
+        event.code
+      )
+    ) {
+
+      event.preventDefault();
+    }
+
+    if (
+      event.code === "Space" ||
+      key === "w" ||
+      key === "arrowup"
+    ) {
+
+      if (
+        gameMode ===
+        "runner"
+      ) {
+
+        runnerJump();
+
+      } else if (
+        event.code ===
+        "Space"
+      ) {
+
+        shoot();
+      }
+    }
+
+    if (
+      key === "r"
+    ) {
+
+      if (
+        gameMode ===
+        "runner"
+      ) {
+
+        startRunner();
+
+        gameMessage.textContent =
+          "TARGET: REACH PRODUCTION";
+
+      } else {
+
+        startInvaders();
+
+        gameMessage.textContent =
+          "TARGET: REMOVE ALL BUGS";
+      }
+    }
+
+    if (
+      key === "escape"
+    ) {
+
+      hideGame();
+    }
+  }
+);
+
+
+window.addEventListener(
+  "keyup",
+  event => {
+
+    keys[
+      event.key
+        .toLowerCase()
+    ] =
+      false;
+  }
+);
 
 
 /* ==================================================
@@ -2456,15 +3267,14 @@ function clearCanvas() {
     canvas.width,
     canvas.height
   );
-
 }
 
 
 /* ==================================================
-   HUD
+   INVADERS DRAW
 ================================================== */
 
-function drawHUD() {
+function drawInvadersHUD() {
 
   ctx.fillStyle =
     "#67e8f9";
@@ -2478,7 +3288,6 @@ function drawHUD() {
     19
   );
 
-
   ctx.fillStyle =
     "#64748b";
 
@@ -2487,13 +3296,8 @@ function drawHUD() {
     14,
     35
   );
-
 }
 
-
-/* ==================================================
-   BUG
-================================================== */
 
 function drawBug(
   bug
@@ -2502,7 +3306,6 @@ function drawBug(
   ctx.fillStyle =
     "#ec4899";
 
-
   ctx.fillRect(
     bug.x,
     bug.y,
@@ -2510,10 +3313,8 @@ function drawBug(
     bug.height
   );
 
-
   ctx.strokeStyle =
     "#f9a8d4";
-
 
   ctx.strokeRect(
     bug.x,
@@ -2522,33 +3323,24 @@ function drawBug(
     bug.height
   );
 
-
   ctx.fillStyle =
     "#ffffff";
 
-
   ctx.font =
     "10px Consolas";
-
 
   ctx.fillText(
     "BUG",
     bug.x + 8,
     bug.y + 15
   );
-
 }
 
 
-/* ==================================================
-   PLAYER
-================================================== */
-
-function drawPlayer() {
+function drawInvadersPlayer() {
 
   ctx.fillStyle =
     "#22d3ee";
-
 
   ctx.fillRect(
     player.x,
@@ -2557,10 +3349,8 @@ function drawPlayer() {
     player.height
   );
 
-
   ctx.fillStyle =
     "#67e8f9";
-
 
   ctx.fillRect(
     player.x +
@@ -2573,33 +3363,24 @@ function drawPlayer() {
     10
   );
 
-
   ctx.fillStyle =
     "#020617";
 
-
   ctx.font =
     "bold 10px Consolas";
-
 
   ctx.fillText(
     "DEV",
     player.x + 17,
     player.y + 14
   );
-
 }
 
-
-/* ==================================================
-   BULLETS
-================================================== */
 
 function drawBullets() {
 
   ctx.fillStyle =
     "#4ade80";
-
 
   for (
     const bullet
@@ -2612,14 +3393,12 @@ function drawBullets() {
       bullet.width,
       bullet.height
     );
-
   }
-
 }
 
 
 /* ==================================================
-   PARTICLES
+   PARTICLES DRAW
 ================================================== */
 
 function drawParticles() {
@@ -2636,12 +3415,10 @@ function drawParticles() {
         30
       );
 
-
     ctx.fillStyle =
       "rgba(244,114,182," +
       alpha +
       ")";
-
 
     ctx.fillRect(
       particle.x,
@@ -2649,21 +3426,18 @@ function drawParticles() {
       particle.size,
       particle.size
     );
-
   }
-
 }
 
 
 /* ==================================================
-   CLEAR SCREEN
+   INVADERS CLEAR
 ================================================== */
 
-function drawClear() {
+function drawInvadersClear() {
 
   ctx.fillStyle =
     "rgba(2,6,23,.92)";
-
 
   ctx.fillRect(
     110,
@@ -2672,14 +3446,11 @@ function drawClear() {
     190
   );
 
-
   ctx.strokeStyle =
     "#4ade80";
 
-
   ctx.lineWidth =
     2;
-
 
   ctx.strokeRect(
     110,
@@ -2688,18 +3459,14 @@ function drawClear() {
     190
   );
 
-
   ctx.textAlign =
     "center";
-
 
   ctx.fillStyle =
     "#4ade80";
 
-
   ctx.font =
     "bold 28px Consolas";
-
 
   ctx.fillText(
     "DEBUG COMPLETE",
@@ -2707,14 +3474,11 @@ function drawClear() {
     143
   );
 
-
   ctx.fillStyle =
     "#ffffff";
 
-
   ctx.font =
     "14px Consolas";
-
 
   ctx.fillText(
     "ALL BUGS REMOVED",
@@ -2722,14 +3486,11 @@ function drawClear() {
     180
   );
 
-
   ctx.fillStyle =
     "#fde68a";
 
-
   ctx.font =
     "12px Consolas";
-
 
   ctx.fillText(
     "SY-SUBRC = 0",
@@ -2737,14 +3498,11 @@ function drawClear() {
     212
   );
 
-
   ctx.fillStyle =
     "#94a3b8";
 
-
   ctx.font =
     "10px Consolas";
-
 
   ctx.fillText(
     "PRESS R TO RESTART",
@@ -2752,23 +3510,16 @@ function drawClear() {
     244
   );
 
-
   ctx.textAlign =
     "start";
-
 }
 
 
-/* ==================================================
-   DRAW
-================================================== */
-
-function draw() {
+function drawInvaders() {
 
   clearCanvas();
 
-  drawHUD();
-
+  drawInvadersHUD();
 
   for (
     const bug
@@ -2778,28 +3529,597 @@ function draw() {
     drawBug(
       bug
     );
-
   }
-
 
   drawBullets();
 
   drawParticles();
 
-  drawPlayer();
-
+  drawInvadersPlayer();
 
   if (cleared) {
 
-    drawClear();
-
+    drawInvadersClear();
   }
-
 }
 
 
 /* ==================================================
-   LOOP
+   RUNNER BACKGROUND
+================================================== */
+
+function drawRunnerBackground() {
+
+  const gradient =
+    ctx.createLinearGradient(
+      0,
+      0,
+      0,
+      canvas.height
+    );
+
+  gradient.addColorStop(
+    0,
+    "#07152d"
+  );
+
+  gradient.addColorStop(
+    1,
+    "#10103a"
+  );
+
+  ctx.fillStyle =
+    gradient;
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  ctx.fillStyle =
+    "rgba(34,211,238,.08)";
+
+  const gridOffset =
+    -(
+      runnerCameraX *
+      .18
+    ) % 80;
+
+  for (
+    let x = gridOffset;
+    x < canvas.width + 80;
+    x += 80
+  ) {
+
+    ctx.fillRect(
+      x,
+      0,
+      1,
+      canvas.height
+    );
+  }
+
+
+  ctx.fillStyle =
+    "rgba(139,92,246,.12)";
+
+  const cityOffset =
+    -(
+      runnerCameraX *
+      .32
+    ) % 110;
+
+  for (
+    let index = -1;
+    index < 8;
+    index++
+  ) {
+
+    const buildingX =
+      index * 110 +
+      cityOffset;
+
+    const buildingHeight =
+      55 +
+      (
+        Math.abs(index) %
+        4
+      ) *
+      22;
+
+    ctx.fillRect(
+      buildingX,
+      canvas.height -
+        buildingHeight -
+        54,
+      76,
+      buildingHeight
+    );
+  }
+}
+
+
+/* ==================================================
+   RUNNER PLATFORMS
+================================================== */
+
+function drawRunnerPlatforms() {
+
+  for (
+    const platform
+    of runnerPlatforms
+  ) {
+
+    const screenX =
+      platform.x -
+      runnerCameraX;
+
+    if (
+      screenX >
+        canvas.width ||
+      screenX +
+        platform.width <
+        0
+    ) {
+
+      continue;
+    }
+
+    ctx.fillStyle =
+      "#164e63";
+
+    ctx.fillRect(
+      screenX,
+      platform.y,
+      platform.width,
+      platform.height
+    );
+
+    ctx.fillStyle =
+      "#22d3ee";
+
+    ctx.fillRect(
+      screenX,
+      platform.y,
+      platform.width,
+      4
+    );
+
+    ctx.strokeStyle =
+      "rgba(103,232,249,.19)";
+
+    ctx.strokeRect(
+      screenX,
+      platform.y,
+      platform.width,
+      platform.height
+    );
+  }
+}
+
+
+/* ==================================================
+   RUNNER PLAYER
+================================================== */
+
+function drawRunnerPlayer() {
+
+  const screenX =
+    runnerPlayer.x -
+    runnerCameraX;
+
+  ctx.fillStyle =
+    "#22d3ee";
+
+  ctx.fillRect(
+    screenX + 4,
+    runnerPlayer.y + 12,
+    20,
+    24
+  );
+
+  ctx.fillStyle =
+    "#fde68a";
+
+  ctx.fillRect(
+    screenX + 7,
+    runnerPlayer.y,
+    15,
+    14
+  );
+
+  ctx.fillStyle =
+    "#4338ca";
+
+  ctx.fillRect(
+    screenX + 4,
+    runnerPlayer.y,
+    21,
+    5
+  );
+
+  ctx.fillStyle =
+    "#4ade80";
+
+  ctx.fillRect(
+    screenX + 2,
+    runnerPlayer.y + 36,
+    10,
+    6
+  );
+
+  ctx.fillRect(
+    screenX + 17,
+    runnerPlayer.y + 36,
+    10,
+    6
+  );
+
+  ctx.fillStyle =
+    "#020617";
+
+  ctx.font =
+    "bold 7px Consolas";
+
+  ctx.fillText(
+    "DEV",
+    screenX + 6,
+    runnerPlayer.y + 28
+  );
+}
+
+
+/* ==================================================
+   RUNNER ENEMY DRAW
+================================================== */
+
+function drawRunnerEnemies() {
+
+  for (
+    const enemy
+    of runnerEnemies
+  ) {
+
+    const screenX =
+      enemy.x -
+      runnerCameraX;
+
+    if (
+      screenX < -50 ||
+      screenX >
+        canvas.width + 50
+    ) {
+
+      continue;
+    }
+
+    ctx.fillStyle =
+      "#ec4899";
+
+    ctx.fillRect(
+      screenX,
+      enemy.y,
+      enemy.width,
+      enemy.height
+    );
+
+    ctx.strokeStyle =
+      "#f9a8d4";
+
+    ctx.strokeRect(
+      screenX,
+      enemy.y,
+      enemy.width,
+      enemy.height
+    );
+
+    ctx.fillStyle =
+      "#ffffff";
+
+    ctx.font =
+      "bold 8px Consolas";
+
+    ctx.fillText(
+      "BUG",
+      screenX + 6,
+      enemy.y + 17
+    );
+  }
+}
+
+
+/* ==================================================
+   RUNNER COIN DRAW
+================================================== */
+
+function drawRunnerCoins() {
+
+  for (
+    const coin
+    of runnerCoins
+  ) {
+
+    if (coin.collected) {
+      continue;
+    }
+
+    const screenX =
+      coin.x -
+      runnerCameraX;
+
+    if (
+      screenX < -30 ||
+      screenX >
+        canvas.width + 30
+    ) {
+
+      continue;
+    }
+
+    ctx.fillStyle =
+      "#fde047";
+
+    ctx.beginPath();
+
+    ctx.arc(
+      screenX +
+        coin.width / 2,
+
+      coin.y +
+        coin.height / 2,
+
+      8,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+
+    ctx.fillStyle =
+      "#854d0e";
+
+    ctx.font =
+      "bold 9px Consolas";
+
+    ctx.fillText(
+      "C",
+      screenX + 5,
+      coin.y + 12
+    );
+  }
+}
+
+
+/* ==================================================
+   RUNNER GOAL
+================================================== */
+
+function drawRunnerGoal() {
+
+  const screenX =
+    runnerWorld.width -
+    110 -
+    runnerCameraX;
+
+  ctx.fillStyle =
+    "#4ade80";
+
+  ctx.fillRect(
+    screenX,
+    158,
+    5,
+    148
+  );
+
+  ctx.fillStyle =
+    "#22d3ee";
+
+  ctx.fillRect(
+    screenX + 5,
+    158,
+    92,
+    38
+  );
+
+  ctx.fillStyle =
+    "#020617";
+
+  ctx.font =
+    "bold 11px Consolas";
+
+  ctx.fillText(
+    "PRODUCTION",
+    screenX + 14,
+    182
+  );
+}
+
+
+/* ==================================================
+   RUNNER HUD
+================================================== */
+
+function drawRunnerHUD() {
+
+  ctx.fillStyle =
+    "rgba(2,6,23,.78)";
+
+  ctx.fillRect(
+    10,
+    10,
+    220,
+    43
+  );
+
+  ctx.strokeStyle =
+    "rgba(103,232,249,.3)";
+
+  ctx.strokeRect(
+    10,
+    10,
+    220,
+    43
+  );
+
+  ctx.fillStyle =
+    "#67e8f9";
+
+  ctx.font =
+    "10px Consolas";
+
+  ctx.fillText(
+    "SYSTEM: DEVELOPMENT",
+    20,
+    27
+  );
+
+  const progress =
+    Math.min(
+      100,
+      Math.floor(
+        runnerPlayer.x /
+        (
+          runnerWorld.width -
+          150
+        ) *
+        100
+      )
+    );
+
+  ctx.fillStyle =
+    "#94a3b8";
+
+  ctx.fillText(
+    "TRANSPORT: " +
+    progress +
+    "%",
+    20,
+    43
+  );
+}
+
+
+/* ==================================================
+   RUNNER CLEAR
+================================================== */
+
+function drawRunnerClear() {
+
+  ctx.fillStyle =
+    "rgba(2,6,23,.92)";
+
+  ctx.fillRect(
+    100,
+    82,
+    440,
+    198
+  );
+
+  ctx.strokeStyle =
+    "#4ade80";
+
+  ctx.lineWidth =
+    2;
+
+  ctx.strokeRect(
+    100,
+    82,
+    440,
+    198
+  );
+
+  ctx.textAlign =
+    "center";
+
+  ctx.fillStyle =
+    "#4ade80";
+
+  ctx.font =
+    "bold 25px Consolas";
+
+  ctx.fillText(
+    "TRANSPORT COMPLETE",
+    canvas.width / 2,
+    139
+  );
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.font =
+    "14px Consolas";
+
+  ctx.fillText(
+    "DEVELOPMENT → PRODUCTION",
+    canvas.width / 2,
+    179
+  );
+
+  ctx.fillStyle =
+    "#fde68a";
+
+  ctx.font =
+    "12px Consolas";
+
+  ctx.fillText(
+    "RETURN CODE = 0",
+    canvas.width / 2,
+    214
+  );
+
+  ctx.fillStyle =
+    "#94a3b8";
+
+  ctx.font =
+    "10px Consolas";
+
+  ctx.fillText(
+    "PRESS R TO RESTART",
+    canvas.width / 2,
+    249
+  );
+
+  ctx.textAlign =
+    "start";
+}
+
+
+/* ==================================================
+   RUNNER DRAW
+================================================== */
+
+function drawRunner() {
+
+  clearCanvas();
+
+  drawRunnerBackground();
+
+  drawRunnerPlatforms();
+
+  drawRunnerCoins();
+
+  drawRunnerEnemies();
+
+  drawRunnerGoal();
+
+  drawRunnerPlayer();
+
+  drawParticles();
+
+  drawRunnerHUD();
+
+  if (cleared) {
+
+    drawRunnerClear();
+  }
+}
+
+
+/* ==================================================
+   GAME LOOP
 ================================================== */
 
 function gameLoop(
@@ -2818,12 +4138,6 @@ function gameLoop(
           "is-hidden"
         );
 
-
-    /*
-      最大60FPS。
-      iframe先で負荷が高い場合にフレーム暴走を防ぐ。
-    */
-
     if (
       loaded &&
       timestamp -
@@ -2834,25 +4148,33 @@ function gameLoop(
       lastFrameTime =
         timestamp;
 
+      if (
+        gameMode ===
+        "runner"
+      ) {
 
-      if (running) {
+        if (running) {
 
-        update();
+          updateRunner();
+        }
 
+        drawRunner();
+
+      } else {
+
+        if (running) {
+
+          updateInvaders();
+        }
+
+        drawInvaders();
       }
-
-
-      draw();
-
     }
-
   }
-
 
   requestAnimationFrame(
     gameLoop
   );
-
 }
 
 
@@ -2868,20 +4190,8 @@ document.addEventListener(
       document.hidden
     ) {
 
-      keys.arrowleft =
-        false;
-
-      keys.arrowright =
-        false;
-
-      keys.a =
-        false;
-
-      keys.d =
-        false;
-
+      resetKeys();
     }
-
   }
 );
 
@@ -2890,9 +4200,25 @@ document.addEventListener(
    EVENTS
 ================================================== */
 
-playGame.addEventListener(
+playInvaders.addEventListener(
   "click",
-  openGame
+  () => {
+
+    openGame(
+      "invaders"
+    );
+  }
+);
+
+
+playRunner.addEventListener(
+  "click",
+  () => {
+
+    openGame(
+      "runner"
+    );
+  }
 );
 
 
@@ -2912,9 +4238,7 @@ gameModal.addEventListener(
     ) {
 
       hideGame();
-
     }
-
   }
 );
 
@@ -2928,7 +4252,6 @@ requestAnimationFrame(
 );
 
 </script>
-
 
 </body>
 </html>
